@@ -1,0 +1,161 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceDot } from 'recharts';
+import { ArrowUp, ArrowDown, TrendingUp, Zap, Clock, Minus, User } from 'lucide-react';
+import { useChartData } from '@/hooks/use-chart-data';
+import { useSignalStore } from '@/store/signalStore';
+import { motion } from 'framer-motion';
+import { TradeHistory } from './TradeHistory';
+import { useMemo } from 'react';
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border border-white/20 bg-gray-900/80 p-3 text-sm text-white backdrop-blur-sm">
+        <p className="font-bold">{`Time: ${label}`}</p>
+        <p className="text-indigo-400">{`Price: ${payload[0].value.toFixed(4)}`}</p>
+      </div>
+    );
+  }
+  return null;
+};
+export function DashboardPanel() {
+  const chartData = useChartData();
+  const latestSignal = useSignalStore((state) => state.signal);
+  const lastEventTimestamp = useSignalStore((state) => state.lastEventTimestamp);
+  const eventDataPoint = useMemo(() => {
+    if (!lastEventTimestamp) return null;
+    return chartData.find(d => d.time === lastEventTimestamp) || null;
+  }, [chartData, lastEventTimestamp]);
+  const getSignalAppearance = () => {
+    switch (latestSignal.signal) {
+      case 'BUY':
+        return {
+          Icon: ArrowUp,
+          color: 'text-green-400',
+          bgColor: 'bg-green-500/10',
+        };
+      case 'SELL':
+        return {
+          Icon: ArrowDown,
+          color: 'text-red-400',
+          bgColor: 'bg-red-500/10',
+        };
+      default: // HOLD
+        return {
+          Icon: Minus,
+          color: 'text-yellow-400',
+          bgColor: 'bg-yellow-500/10',
+        };
+    }
+  };
+  const { Icon: SignalIcon, color: signalColor, bgColor: signalBgColor } = getSignalAppearance();
+  return (
+    <div className="h-full overflow-y-auto bg-gray-900 p-6 text-white">
+      <header className="mb-8 flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Trading Dashboard</h1>
+          <p className="text-gray-400">Simulated market data for {latestSignal.pair}</p>
+        </div>
+        <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-gray-800/50 px-4 py-2 text-sm">
+          <User className="h-5 w-5 text-indigo-400" />
+          <div>
+            <span className="text-gray-400">Account ID:</span>
+            <span className="ml-2 font-mono font-bold text-white">11266275</span>
+          </div>
+        </div>
+      </header>
+      <div className="mb-8 h-80">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart
+            data={chartData}
+            margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
+          >
+            <defs>
+              <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#818cf8" stopOpacity={0.6}/>
+                <stop offset="95%" stopColor="#818cf8" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+            <XAxis dataKey="time" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
+            <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 0.001', 'dataMax + 0.001']} tickFormatter={(value) => `${Number(value).toFixed(4)}`} />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend wrapperStyle={{ fontSize: '14px' }} />
+            <Area type="monotone" dataKey="price" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorPrice)" name={`${latestSignal.pair} Price`} />
+            {eventDataPoint && (
+              <ReferenceDot
+                x={eventDataPoint.time}
+                y={eventDataPoint.price}
+                r={6}
+                fill="#facc15"
+                stroke="#a16207"
+                strokeWidth={2}
+                isFront={true}
+              >
+                <animate attributeName="r" from="6" to="12" dur="1s" repeatCount="indefinite" />
+                <animate attributeName="opacity" from="1" to="0.5" dur="1s" repeatCount="indefinite" />
+              </ReferenceDot>
+            )}
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="border-white/10 bg-gray-800/50 text-white transition-all hover:border-indigo-500/50 hover:shadow-lg hover:shadow-indigo-500/10">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-300">Latest Signal</CardTitle>
+            <Zap className="h-4 w-4 text-gray-400" />
+          </CardHeader>
+          <CardContent>
+            <motion.div key={latestSignal.timestamp + 'signal'} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4">
+              <div className={`flex h-12 w-12 items-center justify-center rounded-full ${signalBgColor}`}>
+                <SignalIcon className={`h-6 w-6 ${signalColor}`} />
+              </div>
+              <div>
+                <p className={`text-2xl font-bold ${signalColor}`}>{latestSignal.signal}</p>
+                <p className="text-xs text-gray-400">{latestSignal.pair}</p>
+              </div>
+            </motion.div>
+          </CardContent>
+        </Card>
+        <Card className="border-white/10 bg-gray-800/50 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-300">Signal Details</CardTitle>
+            <TrendingUp className="h-4 w-4 text-gray-400" />
+          </CardHeader>
+          <CardContent>
+            <motion.div key={latestSignal.timestamp + 'details'} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="text-2xl font-bold">{latestSignal.price.toFixed(4)}</div>
+              <p className="text-xs text-gray-400">
+                Confidence: <span className="font-semibold text-indigo-400">{latestSignal.confidence}%</span>
+              </p>
+            </motion.div>
+          </CardContent>
+        </Card>
+        <Card className="border-white/10 bg-gray-800/50 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-300">Signal Time</CardTitle>
+            <Clock className="h-4 w-4 text-gray-400" />
+          </CardHeader>
+          <CardContent>
+            <motion.div key={latestSignal.timestamp + 'time'} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="text-2xl font-bold">{latestSignal.timestamp}</div>
+              <p className="text-xs text-gray-400">Local Time</p>
+            </motion.div>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Card className="border-white/10 bg-gray-800/50 text-white">
+          <CardHeader>
+            <CardTitle className="text-sm font-medium text-gray-300">AI Reasoning</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <motion.p key={latestSignal.timestamp + 'reasoning'} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-gray-300">
+              {latestSignal.reasoning}
+            </motion.p>
+          </CardContent>
+        </Card>
+        <TradeHistory />
+      </div>
+    </div>
+  );
+}
