@@ -1,8 +1,23 @@
 import type { WeatherResult, ErrorResult } from './types';
 import { mcpManager } from './mcp-client';
-
-export type ToolResult = WeatherResult | { content: string } | ErrorResult;
-
+import type { Env } from './core-utils';
+export type ToolResult = WeatherResult | { content: string } | ErrorResult | MarketDataSignal | TradeResult;
+interface MarketDataSignal {
+  pair: string;
+  signal: 'BUY' | 'SELL' | 'HOLD';
+  confidence: number;
+  price: number;
+  reasoning: string;
+}
+interface TradeResult {
+  success: boolean;
+  message: string;
+  accountId: number;
+  pair: string;
+  action: 'BUY' | 'SELL';
+  amount: number;
+  price: number;
+}
 interface SerpApiResponse {
   knowledge_graph?: { title?: string; description?: string; source?: { link?: string } };
   answer_box?: { answer?: string; snippet?: string; title?: string; link?: string };
@@ -10,8 +25,54 @@ interface SerpApiResponse {
   local_results?: Array<{ title?: string; address?: string; phone?: string; rating?: number }>;
   error?: string;
 }
-
 const customTools = [
+  {
+    type: 'function' as const,
+    function: {
+      name: 'get_market_data_and_signal',
+      description: 'Gets simulated market data and a trading signal for a given currency pair.',
+      parameters: {
+        type: 'object',
+        properties: {
+          pair: {
+            type: 'string',
+            description: 'The currency pair to analyze, e.g., "EUR/USD", "BTC/USD".',
+          },
+        },
+        required: ['pair'],
+      },
+    },
+  },
+  {
+    type: 'function' as const,
+    function: {
+      name: 'execute_trade_signal',
+      description: 'Executes a simulated trade on a specified account. This is for demonstration only.',
+      parameters: {
+        type: 'object',
+        properties: {
+          accountId: {
+            type: 'number',
+            description: 'The trading account ID. Must be 11266275 for this simulation.',
+          },
+          pair: {
+            type: 'string',
+            description: 'The currency pair to trade, e.g., "EUR/USD".',
+          },
+          action: {
+            type: 'string',
+            enum: ['BUY', 'SELL'],
+            description: 'The trade action to perform.',
+          },
+          amount: {
+            type: 'number',
+            description: 'The amount to trade, in the base currency.',
+          },
+        },
+        required: ['accountId', 'pair', 'action', 'amount'],
+      },
+    },
+  },
   {
     type: 'function' as const,
     function: {
@@ -41,12 +102,10 @@ const customTools = [
     }
   }
 ];
-
 export async function getToolDefinitions() {
   const mcpTools = await mcpManager.getToolDefinitions();
   return [...customTools, ...mcpTools];
 }
-
 const createSearchUrl = (query: string, apiKey: string, numResults: number) => {
   const url = new URL('https://serpapi.com/search');
   url.searchParams.set('engine', 'google');
@@ -55,25 +114,18 @@ const createSearchUrl = (query: string, apiKey: string, numResults: number) => {
   url.searchParams.set('num', Math.min(numResults, 10).toString());
   return url.toString();
 };
-
 const formatSearchResults = (data: SerpApiResponse, query: string, numResults: number): string => {
   const results: string[] = [];
-  
-  // Knowledge graph
   if (data.knowledge_graph?.title && data.knowledge_graph.description) {
     results.push(`**${data.knowledge_graph.title}**\n${data.knowledge_graph.description}`);
     if (data.knowledge_graph.source?.link) results.push(`Source: ${data.knowledge_graph.source.link}`);
   }
-  
-  // Answer box
   if (data.answer_box) {
     const { answer, snippet, title, link } = data.answer_box;
     if (answer) results.push(`**Answer**: ${answer}`);
     else if (snippet) results.push(`**${title || 'Answer'}**: ${snippet}`);
     if (link) results.push(`Source: ${link}`);
   }
-  
-  // Organic results
   if (data.organic_results?.length) {
     results.push('\n**Search Results:**');
     data.organic_results.slice(0, numResults).forEach((result, index) => {
@@ -85,8 +137,6 @@ const formatSearchResults = (data: SerpApiResponse, query: string, numResults: n
       }
     });
   }
-  
-  // Local results
   if (data.local_results?.length) {
     results.push('\n**Local Results:**');
     data.local_results.slice(0, 3).forEach((result, index) => {
@@ -99,28 +149,22 @@ const formatSearchResults = (data: SerpApiResponse, query: string, numResults: n
       }
     });
   }
-  
-  return results.length ? `🔍 Search results for "${query}":\n\n${results.join('\n\n')}` 
+  return results.length ? `🔍 Search results for "${query}":\n\n${results.join('\n\n')}`
     : `No results found for "${query}". Try: https://www.google.com/search?q=${encodeURIComponent(query)}`;
 };
-
-async function performWebSearch(query: string, numResults = 5): Promise<string> {
-  const apiKey = process.env.SERPAPI_KEY;
+async function performWebSearch(query: string, numResults = 5, env: Env): Promise<string> {
+  const apiKey = env.SERPAPI_KEY;
   if (!apiKey) {
     return `🔍 Web search requires SerpAPI key. Get one at https://serpapi.com/\nFallback: https://www.google.com/search?q=${encodeURIComponent(query)}`;
   }
-
   try {
     const response = await fetch(createSearchUrl(query, apiKey, numResults), {
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebBot/1.0)', 'Accept': 'application/json' },
       signal: AbortSignal.timeout(15000)
     });
-
     if (!response.ok) throw new Error(`SerpAPI returned ${response.status}`);
-    
     const data: SerpApiResponse = await response.json();
     if (data.error) throw new Error(`SerpAPI error: ${data.error}`);
-    
     return formatSearchResults(data, query, numResults);
   } catch (error) {
     const isTimeout = error instanceof Error && error.message.includes('timeout');
@@ -128,39 +172,63 @@ async function performWebSearch(query: string, numResults = 5): Promise<string> 
     return `Search failed: ${isTimeout ? 'timeout' : 'API error'}. Try: ${fallback}`;
   }
 }
-
 const extractTextFromHtml = (html: string): string => html
   .replace(/<(script|style|noscript)[^>]*>[\s\S]*?<\/\1>/gi, '')
   .replace(/<[^>]*>/g, ' ')
   .replace(/\s+/g, ' ')
   .trim();
-
 async function fetchWebContent(url: string): Promise<string> {
   try {
-    new URL(url); // Validate
+    new URL(url);
     const response = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebBot/1.0)' },
       signal: AbortSignal.timeout(10000)
     });
-
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('text/')) throw new Error('Unsupported content type');
-
     const html = await response.text();
     const text = extractTextFromHtml(html);
-    
-    return text.length ? `Content from ${url}:\n\n${text.slice(0, 4000)}${text.length > 4000 ? '...' : ''}` 
+    return text.length ? `Content from ${url}:\n\n${text.slice(0, 4000)}${text.length > 4000 ? '...' : ''}`
       : `No readable content found at ${url}`;
   } catch (error) {
     throw new Error(`Failed to fetch: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
-
-export async function executeTool(name: string, args: Record<string, unknown>): Promise<ToolResult> {
+export async function executeTool(name: string, args: Record<string, unknown>, env: Env): Promise<ToolResult> {
   try {
     switch (name) {
+      case 'get_market_data_and_signal': {
+        const pair = (args.pair as string) || 'EUR/USD';
+        const signals: Array<'BUY' | 'SELL' | 'HOLD'> = ['BUY', 'SELL', 'HOLD'];
+        const randomSignal = signals[Math.floor(Math.random() * signals.length)];
+        const basePrice = pair.toUpperCase().includes('BTC') ? 68000 : 1.0750;
+        return {
+          pair: pair,
+          signal: randomSignal,
+          confidence: Math.floor(Math.random() * 30) + 70, // 70-99%
+          price: basePrice + (Math.random() - 0.5) * (basePrice * 0.01),
+          reasoning: `Based on simulated technical indicators, the momentum for ${pair} suggests a potential ${randomSignal.toLowerCase()} opportunity.`,
+        };
+      }
+      case 'execute_trade_signal': {
+        const { accountId, pair, action, amount } = args as { accountId: number; pair: string; action: 'BUY' | 'SELL'; amount: number };
+        if (accountId !== 11266275) {
+          return { error: 'Invalid account ID for this simulation. Please use 11266275.' };
+        }
+        const success = Math.random() > 0.1; // 90% success rate
+        const basePrice = pair.toUpperCase().includes('BTC') ? 68000 : 1.0750;
+        const price = basePrice + (Math.random() - 0.5) * (basePrice * 0.005);
+        return {
+          success,
+          message: success ? `Trade executed successfully.` : `Trade failed due to simulated market volatility.`,
+          accountId,
+          pair,
+          action,
+          amount,
+          price,
+        };
+      }
       case 'get_weather':
         return {
           location: args.location as string,
@@ -168,7 +236,6 @@ export async function executeTool(name: string, args: Record<string, unknown>): 
           condition: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'][Math.floor(Math.random() * 4)],
           humidity: Math.floor(Math.random() * 100)
         };
-      
       case 'web_search': {
         const { query, url, num_results = 5 } = args;
         if (typeof url === 'string') {
@@ -176,12 +243,11 @@ export async function executeTool(name: string, args: Record<string, unknown>): 
           return { content };
         }
         if (typeof query === 'string') {
-          const content = await performWebSearch(query, num_results as number);
+          const content = await performWebSearch(query, num_results as number, env);
           return { content };
         }
         return { error: 'Either query or url parameter is required' };
       }
-      
       default: {
         const content = await mcpManager.executeTool(name, args);
         return { content };
