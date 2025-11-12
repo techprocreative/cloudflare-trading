@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "signal-sage-ai-e3rvqp3duv89wvmbu7hwi",
+	"name": "nusanexus-trading",
 	"main": "worker/index.ts",
 	"compatibility_date": "2025-04-24",
 	"compatibility_flags": ["nodejs_compat"],
@@ -19,8 +19,8 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "signal-sage-db",
-			"database_id": "signal-sage-db-id"
+			"database_name": "nusanexus-db",
+			"database_id": "nusanexus-db-id"
 		}
 	],
 	"kv_namespaces": [
