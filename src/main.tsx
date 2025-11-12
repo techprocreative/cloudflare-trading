@@ -8,6 +8,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { RouteErrorBoundary } from './components/RouteErrorBoundary';
@@ -157,36 +158,26 @@ const router = createBrowserRouter([
     path: "/onboarding",
     element: (
       <ProtectedRoute>
-        <SimpleLayout>
-          <Navigate to="welcome" replace />
-        </SimpleLayout>
+        <Outlet />
       </ProtectedRoute>
     ),
     errorElement: <RouteErrorBoundary />,
     children: [
       {
+        index: true,
+        element: <Navigate to="welcome" replace />,
+      },
+      {
         path: "welcome",
-        element: (
-          <ProtectedRoute>
-            <WelcomeStep />
-          </ProtectedRoute>
-        ),
+        element: <WelcomeStep />,
       },
       {
         path: "plan",
-        element: (
-          <ProtectedRoute>
-            <PlanSelectionStep />
-          </ProtectedRoute>
-        ),
+        element: <PlanSelectionStep />,
       },
       {
         path: "profile",
-        element: (
-          <ProtectedRoute>
-            <ProfileSetupStep />
-          </ProtectedRoute>
-        ),
+        element: <ProfileSetupStep />,
       },
     ],
   },

@@ -1,0 +1,78 @@
+# Flow & Navigation Redesign Plan
+
+## Context
+- Saat ini route `/` langsung merender `HomePage` yang berisi dashboard + chat sehingga pengalaman awal terasa “post-login”.
+- Tidak ada halaman landing, CTA onboarding, maupun jalur login/registrasi meskipun `AuthService` sudah tersedia.
+- Navigasi `/pricing` mencoba mengarahkan ke `/dashboard` (tidak ada) sehingga alur paket gratis/pembayaran berujung dead-end.
+- Komponen `AppLayout`/sidebar belum dimanfaatkan untuk membedakan shell publik vs privat.
+
+## Tujuan
+1. Menyediakan landing page publik yang menjelaskan value prop, paket, dan CTA “Masuk/Daftar”.
+2. Memisahkan alur sebelum-login dan sesudah-login dengan proteksi route serta pemanfaatan autentikasi.
+3. Memperbaiki alur pemilihan paket agar pengguna diarahkan ke login/onboarding sebelum masuk aplikasi inti.
+4. Menyatukan navigasi publik & privat agar konsisten di desktop/mobile, tanpa link rusak.
+
+## Fase Implementasi
+
+### Phase 1 — Landing & Router Publik
+- **Output:** `LandingPage` baru di `/`, router baru dengan `/app` sebagai shell privat.
+- **Task utama:**
+  - Buat `src/pages/LandingPage.tsx` berisi hero, highlight fitur, dan preview paket (ambil data dari `src/lib/pricing.ts`).
+  - Update `src/main.tsx` untuk menambahkan route publik (`/`, `/pricing`, `/terms`, `/privacy`, `/login`, `/register`) dan route privat (`/app/*`).
+  - Refactor `HomePage` menjadi child dari `/app` atau pindahkan kontennya ke `src/pages/AppShell.tsx`.
+- **Dependency:** data pricing & komponen existing (ChatPanel, DashboardPanel).
+
+### Phase 2 — Autentikasi Dasar
+- **Output:** halaman `/login` + `/register`, `AuthContext`, & guard route.
+- **Task utama:**
+  - Bungkus `AuthService` (di `src/lib/auth.ts`) ke React context + hook (`src/lib/auth-context.tsx`).
+  - Implementasi form login/daftar memakai string pada `locales/*`.
+  - Buat komponen `ProtectedRoute` untuk mengecek sesi sebelum merender `/app`.
+  - Tambah tombol “Masuk/Daftar” di header publik (component baru atau extend `LandingPage` header).
+- **Dependency:** Phase 1 router.
+
+### Phase 3 — Onboarding & Plan Flow
+- **Output:** alur pemilihan paket setelah login yang konsisten.
+- **Task utama:**
+  - Revisi `src/pages/Pricing.tsx` agar:
+    - CTA “Free plan” mengecek status login: jika belum login → `/login` dengan redirect intent; jika sudah → lanjut onboarding.
+    - Setelah transaksi atau pilih gratis, arahkan ke `/app`.
+  - Tambah halaman `/onboarding/plan` bila ingin memisahkan pemilihan paket dari pricing publik.
+  - Pastikan CTA di landing mengarah ke pricing/onboarding yang benar.
+- **Dependency:** Phase 2 (karena butuh status login).
+
+### Phase 4 — Navigasi & UX Konsisten
+- **Output:** Header publik + App shell privat yang memanfaatkan `AppLayout`.
+- **Task utama:**
+  - Buat komponen `PublicHeader` dengan LanguageSwitcher, ThemeToggle, link Pricing/Legal, CTA Masuk/Daftar.
+  - Gunakan `AppLayout` + `AppSidebar` untuk `/app` sehingga menu privat (Dashboard, Chat, Portfolio, Settings) jelas.
+  - Perbaiki nav mobile agar user dapat kembali ke landing/pricing dengan mudah.
+  - Tambah breadcrumb/CTA legal di footer masing-masing layout.
+- **Dependency:** Phase 1–3 selesai agar skeleton route jelas.
+
+### Phase 5 — QA & Validasi
+- **Output:** alur diuji dan terdokumentasi.
+- **Task utama:**
+  - Test manual jalur utama: Landing → Pricing → Login → App; Logout → Landing.
+  - Verifikasi link legal & CTA di mobile/desktop.
+  - (Opsional) Tambah tes React Testing Library untuk routing dasar.
+
+## Timeline & Owners (estimasi sprint 1 minggu)
+| Phase | Estimasi | Owner | Catatan |
+|-------|----------|-------|---------|
+| 1 | 3 hari | Frontend | Landing + router |
+| 2 | 4 hari | Frontend + Backend | Auth context & forms |
+| 3 | 3 hari | Frontend | Flow pricing/onboarding |
+| 4 | 3 hari | Frontend/Design | Navigasi & layout |
+| 5 | 2 hari | QA/Frontend | Testing & dokumentasi |
+
+## Risiko & Mitigasi
+- **Keterbatasan API auth**: gunakan mock session sementara; dokumentasikan agar mudah migrasi ke backend final.
+- **Ketidakkonsistenan translasi**: audit `locales/*` setelah menambah string baru.
+- **Fragmentasi state**: centralisasi status login di context supaya CTA (header, pricing, landing) bisa membaca status yang sama.
+
+## Next Steps
+1. Review plan dengan stakeholder, setujui urutan fase.
+2. Buat tiket sprint berdasarkan task per fase.
+3. Mulai dari Phase 1 dan lakukan demo setelah setiap fase selesai.
+
