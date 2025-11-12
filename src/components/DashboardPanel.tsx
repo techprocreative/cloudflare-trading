@@ -1,12 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceDot } from 'recharts';
 import { ArrowUp, ArrowDown, TrendingUp, Zap, Clock, Minus, User } from 'lucide-react';
-import { useChartData } from '@/hooks/use-chart-data';
 import { useSignalStore } from '@/store/signalStore';
 import { motion } from 'framer-motion';
 import { TradeHistory } from './TradeHistory';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MarketSelector } from './MarketSelector';
+import { useRealMarketData } from '@/hooks/use-real-market-data';
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -20,7 +21,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 export function DashboardPanel() {
   const { t } = useTranslation();
-  const chartData = useChartData();
+  const [selectedPair, setSelectedPair] = useState('EUR/USD');
+  const { chartData, isLoading } = useRealMarketData(selectedPair);
   const latestSignal = useSignalStore((state) => state.signal);
   const lastEventTimestamp = useSignalStore((state) => state.lastEventTimestamp);
   const eventDataPoint = useMemo(() => {
@@ -57,49 +59,60 @@ export function DashboardPanel() {
           <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
           <p className="text-gray-400">{t('dashboard.subtitle', { pair: latestSignal.pair })}</p>
         </div>
-        <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-gray-800/50 px-4 py-2 text-sm">
-          <User className="h-5 w-5 text-indigo-400" />
-          <div>
-            <span className="text-gray-400">{t('dashboard.accountId')}:</span>
-            <span className="ml-2 font-mono font-bold text-white">11266275</span>
+        <div className="flex items-center gap-4">
+          {/* ADD MARKET SELECTOR */}
+          <MarketSelector
+            currentPair={selectedPair}
+            onPairChange={setSelectedPair}
+          />
+          <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-gray-800/50 px-4 py-2 text-sm">
+            <User className="h-5 w-5 text-indigo-400" />
+            <div>
+              <span className="text-gray-400">{t('dashboard.accountId')}:</span>
+              <span className="ml-2 font-mono font-bold text-white">11266275</span>
+            </div>
           </div>
         </div>
       </header>
-      <div className="mb-8 h-80">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={chartData}
-            margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
-          >
-            <defs>
-              <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#818cf8" stopOpacity={0.6}/>
-                <stop offset="95%" stopColor="#818cf8" stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
-            <XAxis dataKey="time" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
-            <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 0.001', 'dataMax + 0.001']} tickFormatter={(value) => `${Number(value).toFixed(4)}`} />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend wrapperStyle={{ fontSize: '14px' }} />
-            <Area type="monotone" dataKey="price" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorPrice)" name={`${latestSignal.pair} Price`} />
-            {eventDataPoint && (
-              <ReferenceDot
-                x={eventDataPoint.time}
-                y={eventDataPoint.price}
-                r={6}
-                fill="#facc15"
-                stroke="#a16207"
-                strokeWidth={2}
-                isFront={true}
-              >
-                <animate attributeName="r" from="6" to="12" dur="1s" repeatCount="indefinite" />
-                <animate attributeName="opacity" from="1" to="0.5" dur="1s" repeatCount="indefinite" />
-              </ReferenceDot>
-            )}
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+      {isLoading ? (
+        <div className="text-center py-12">Loading market data...</div>
+      ) : (
+        <div className="mb-8 h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              data={chartData}
+              margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
+            >
+              <defs>
+                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#818cf8" stopOpacity={0.6}/>
+                  <stop offset="95%" stopColor="#818cf8" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+              <XAxis dataKey="time" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
+              <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 0.001', 'dataMax + 0.001']} tickFormatter={(value) => `${Number(value).toFixed(4)}`} />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: '14px' }} />
+              <Area type="monotone" dataKey="price" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorPrice)" name={`${latestSignal.pair} Price`} />
+              {eventDataPoint && (
+                <ReferenceDot
+                  x={eventDataPoint.time}
+                  y={eventDataPoint.price}
+                  r={6}
+                  fill="#facc15"
+                  stroke="#a16207"
+                  strokeWidth={2}
+                  isFront={true}
+                >
+                  <animate attributeName="r" from="6" to="12" dur="1s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" from="1" to="0.5" dur="1s" repeatCount="indefinite" />
+                </ReferenceDot>
+              )}
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card className="border-white/10 bg-gray-800/50 text-white transition-all hover:border-indigo-500/50 hover:shadow-lg hover:shadow-indigo-500/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

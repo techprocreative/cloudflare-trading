@@ -327,7 +327,4 @@ class MarketDataProvider {
 }
 
 // Singleton instance
-export const marketDataProvider = new MarketDataProvider(process.env.ALPHA_VANTAGE_API_KEY || '');
-
-// Export types and utilities
-export type { MarketPrice, HistoricalData, TechnicalIndicator };
+export const marketDataProvider = new MarketDataProvider(import.meta.env.VITE_ALPHA_VANTAGE_API_KEY || '');

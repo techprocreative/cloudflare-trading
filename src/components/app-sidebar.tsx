@@ -67,7 +67,7 @@ export function AppSidebar(): JSX.Element {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link to="/support"><LifeBuoy /> <span>{t('nav.profile')}</span></Link>
+                <Link to="/app/settings"><LifeBuoy /> <span>{t('nav.settings')}</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>

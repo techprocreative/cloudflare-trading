@@ -294,6 +294,26 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
 
     // Example route - you can remove this
     app.get('/api/test', (c) => c.json({ success: true, data: { name: 'this works' }}));
+
+    /**
+     * Get signals history
+     * GET /api/signals/history
+     */
+    app.get('/api/signals/history', async (c) => {
+      try {
+        // Get signals from database or session storage
+        // For now, return from chat history
+        const sessionId = c.req.query('sessionId');
+        // Fetch and filter signals from chat messages
+        
+        return c.json({
+          success: true,
+          signals: [] // Return actual signals
+        });
+      } catch (error) {
+        return c.json({ success: false, error: error instanceof Error ? error.message : 'Failed to get signals history' }, 500);
+      }
+    });
     
     // 🤖 AI Extension Point: Add more custom routes here
 }

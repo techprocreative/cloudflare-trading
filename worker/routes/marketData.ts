@@ -234,12 +234,7 @@ marketDataRoutes.post('/prices', async (c) => {
       success: true,
       data: {
         symbols,
-        prices: [
-          ...prices.forex,
-          ...prices.stocks,
-          ...prices.crypto,
-          ...prices.index
-        ],
+        prices, // Already an array, no need to spread
         timestamp: Date.now(),
       }
     });
@@ -285,6 +280,33 @@ marketDataRoutes.get('/health', async (c) => {
       error: error instanceof Error ? error.message : 'Market data service unhealthy',
       status: 'unhealthy'
     }, 503);
+  }
+});
+
+/**
+ * Get market signal for a trading pair
+ * POST /api/market/signal
+ * Body: { pair: string }
+ */
+marketDataRoutes.post('/signal', async (c) => {
+  try {
+    const body = await c.req.json();
+    const { pair } = z.object({
+      pair: z.string().min(1, 'Pair is required')
+    }).parse(body);
+    
+    const marketDataService = createMarketDataService(c.env);
+    const signal = await marketDataService.getMarketDataAndSignal(pair);
+    
+    return c.json({
+      success: true,
+      ...signal
+    });
+  } catch (error) {
+    return c.json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to fetch market data'
+    }, 500);
   }
 });
 

@@ -8,7 +8,9 @@
 		"not_found_handling": "single-page-application"
 	},
 	"vars": {
-		"CF_AI_BASE_URL": "https://gateway.ai.cloudflare.com/v1/YOUR_ACCOUNT_ID/YOUR_GATEWAY_ID/openai",
-		"CF_AI_API_KEY": "your-cloudflare-api-key"
+		"CF_AI_BASE_URL": "https://openrouter.ai/api/v1",
+		"CF_AI_API_KEY": "sk-or-v1-YOUR_OPENROUTER_API_KEY_HERE",
+		"OPENROUTER_API_KEY": "sk-or-v1-YOUR_OPENROUTER_API_KEY_HERE",
+		"SERPAPI_KEY": "your_serpapi_key_optional"
 	}
 }

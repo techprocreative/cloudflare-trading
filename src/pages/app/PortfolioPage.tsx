@@ -1,23 +1,56 @@
-import { useTranslation } from 'react-i18next';
-import { PieChart, Lock } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { PortfolioOverview } from '@/components/portfolio/PortfolioOverview';
+import { AssetAllocationChart } from '@/components/portfolio/AssetAllocationChart';
+import { Lock } from 'lucide-react';
 
 export function PortfolioPage() {
-  const { t } = useTranslation();
+  const { user } = useAuth();
+  const isPremium = user?.subscription.tier !== 'free';
+
+  if (!isPremium) {
+    return (
+      <div className="h-full p-6 flex items-center justify-center">
+        <Card className="bg-gray-800/50 border-white/10 max-w-md">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Lock className="h-8 w-8 text-yellow-500" />
+              <CardTitle>Premium Feature</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-400 mb-4">
+              Portfolio tracking is available for Premium subscribers.
+            </p>
+            <Button onClick={() => window.location.href = '/pricing'}>
+              Upgrade to Premium
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
-    <div className="h-full p-4 md:p-6">
-      <div className="flex flex-col items-center justify-center h-full">
-        <div className="relative">
-          <PieChart className="h-16 w-16 text-gray-400 mb-4" />
-          <Lock className="h-6 w-6 text-yellow-500 absolute -top-1 -right-1" />
-        </div>
-        <h2 className="text-xl font-semibold text-white mb-2">{t('nav.portfolio')}</h2>
-        <p className="text-gray-400 text-center max-w-md mb-2">
-          Portfolio tracking and management will be displayed here. This feature is available for Premium users.
-        </p>
-        <p className="text-yellow-500 text-sm">
-          Upgrade to Premium to unlock this feature
-        </p>
+    <div className="h-full p-6 text-white overflow-y-auto">
+      <h1 className="text-2xl font-bold mb-6">Portfolio</h1>
+      
+      <div className="space-y-6">
+        <PortfolioOverview />
+        <AssetAllocationChart />
+        
+        {/* Add more portfolio features */}
+        <Card className="bg-gray-800/50 border-white/10">
+          <CardHeader>
+            <CardTitle>Holdings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-400 text-center py-8">
+              Holdings management coming soon
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
