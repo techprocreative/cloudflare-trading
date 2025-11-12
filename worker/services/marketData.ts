@@ -27,38 +27,27 @@ export class MarketDataService {
       // Validate symbol
       const normalizedPair = this.normalizeSymbol(pair);
       
-      // Get current price with error handling
-      let marketData;
-      try {
-        marketData = await marketDataProvider.getCurrentPrice(normalizedPair);
-      } catch (error) {
-        console.error(`Failed to get price for ${normalizedPair}:`, error);
-        throw new Error(`Market data service unavailable. Yahoo Finance or CoinGecko may be rate-limited.`);
-      }
+      console.log(`[MarketData] Fetching data for: ${normalizedPair}`);
+      
+      // Get current price
+      const marketData = await marketDataProvider.getCurrentPrice(normalizedPair);
       
       if (!marketData) {
-        throw new Error(`No market data available for ${pair}. This symbol may not be supported.`);
-      }
-
-      // Get historical data with fallback
-      let historicalData;
-      try {
-        historicalData = await marketDataProvider.getHistoricalData(normalizedPair, '1d');
-      } catch (error) {
-        console.error(`Failed to get historical data for ${normalizedPair}:`, error);
-        // Generate fallback data
-        historicalData = this.generateFallbackHistoricalData(marketData.price);
+        console.error(`[MarketData] No data returned for ${normalizedPair}`);
+        throw new Error(`No market data available for ${pair}. Symbol may not be supported or API is down.`);
       }
       
-      // Get technical indicators with fallback
-      let indicators;
-      try {
-        indicators = await marketDataProvider.getTechnicalIndicators(normalizedPair);
-      } catch (error) {
-        console.error(`Failed to get indicators for ${normalizedPair}:`, error);
-        // Generate basic indicators
-        indicators = this.generateBasicIndicators(marketData.price);
-      }
+      console.log(`[MarketData] Got price data for ${normalizedPair}:`, marketData.price);
+
+      // Get historical data
+      console.log(`[MarketData] Fetching historical data for ${normalizedPair}`);
+      const historicalData = await marketDataProvider.getHistoricalData(normalizedPair, '1d');
+      console.log(`[MarketData] Got ${historicalData.length} historical data points`);
+      
+      // Get technical indicators
+      console.log(`[MarketData] Calculating technical indicators for ${normalizedPair}`);
+      const indicators = await marketDataProvider.getTechnicalIndicators(normalizedPair);
+      console.log(`[MarketData] Got ${indicators.length} indicators`);
       
       // Generate signal based on indicators
       const signal = this.generateSignal(indicators, marketData);
@@ -297,53 +286,46 @@ export class MarketDataService {
     }
   }
 
-  // Generate fallback historical data when API fails
-  private generateFallbackHistoricalData(currentPrice: number): HistoricalData[] {
-    const data: HistoricalData[] = [];
-    const now = Date.now();
-    const volatility = 0.002; // 0.2% volatility
-    
-    for (let i = 29; i >= 0; i--) {
-      const timestamp = now - (i * 24 * 60 * 60 * 1000);
-      const randomChange = (Math.random() - 0.5) * 2 * volatility;
-      const price = currentPrice * (1 + randomChange * i / 30);
+  // Normalize symbol format for Yahoo Finance
+  private normalizeSymbol(symbol: string): string {
+    const symbolMap: Record<string, string> = {
+      // Forex pairs - Yahoo Finance format
+      'EUR/USD': 'EURUSD=X',
+      'GBP/USD': 'GBPUSD=X',
+      'USD/JPY': 'JPY=X',
+      'USD/IDR': 'IDR=X',
+      'EUR/IDR': 'EURIDR=X',
+      'SGD/IDR': 'SGDIDR=X',
+      'JPY/IDR': 'JPYIDR=X',
       
-      data.push({
-        time: timestamp,
-        open: price * 0.998,
-        high: price * 1.003,
-        low: price * 0.997,
-        close: price,
-        volume: Math.floor(Math.random() * 1000000) + 500000,
-      });
-    }
+      // Crypto - Yahoo Finance format
+      'BTC/USD': 'BTC-USD',
+      'ETH/USD': 'ETH-USD',
+      'BNB/USD': 'BNB-USD',
+      'BTC/IDR': 'BTC-USD', // Will need conversion
+      'ETH/IDR': 'ETH-USD', // Will need conversion
+      
+      // Indonesian stocks - already correct format
+      'BBCA.JK': 'BBCA.JK',
+      'BBRI.JK': 'BBRI.JK',
+      'BMRI.JK': 'BMRI.JK',
+      'TLKM.JK': 'TLKM.JK',
+      'ASII.JK': 'ASII.JK',
+      'UNVR.JK': 'UNVR.JK',
+      'ICBP.JK': 'ICBP.JK',
+      'BBNI.JK': 'BBNI.JK',
+      'GGRM.JK': 'GGRM.JK',
+      'ADRO.JK': 'ADRO.JK',
+      
+      // Index
+      '^JKSE': '^JKSE',
+    };
     
-    return data;
+    const normalized = symbolMap[symbol.trim()] || symbol.trim().toUpperCase();
+    console.log(`[MarketData] Normalizing ${symbol} → ${normalized}`);
+    return normalized;
   }
 
-  // Generate basic indicators when API fails
-  private generateBasicIndicators(currentPrice: number): TechnicalIndicator[] {
-    return [
-      {
-        name: 'RSI',
-        value: 50 + (Math.random() - 0.5) * 20,
-        signal: 'NEUTRAL',
-        description: 'Relative Strength Index (estimated)',
-      },
-      {
-        name: 'MACD',
-        value: (Math.random() - 0.5) * 0.01,
-        signal: 'NEUTRAL',
-        description: 'Moving Average Convergence Divergence (estimated)',
-      },
-      {
-        name: 'SMA',
-        value: currentPrice * (1 + (Math.random() - 0.5) * 0.02),
-        signal: 'NEUTRAL',
-        description: 'Simple Moving Average (estimated)',
-      },
-    ];
-  }
 }
 
 // Export singleton function

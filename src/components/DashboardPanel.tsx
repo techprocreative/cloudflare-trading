@@ -91,11 +91,11 @@ export function DashboardPanel() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm font-medium text-red-300">Failed to load market data</p>
               <p className="text-xs text-red-400 mt-1">{error}</p>
               <p className="text-xs text-gray-400 mt-1">
-                Market data uses free APIs (Yahoo Finance, CoinGecko). Service may be temporarily unavailable.
+                Unable to connect to market data providers (Yahoo Finance, CoinGecko). Please check your internet connection or try again later.
               </p>
             </div>
           </div>

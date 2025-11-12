@@ -71,14 +71,30 @@ class MarketDataProvider {
   async getYahooFinanceData(symbol: string): Promise<MarketPrice | null> {
     try {
       const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`;
-      const response = await fetch(url);
+      console.log(`[Yahoo Finance] Fetching: ${url}`);
       
-      if (!response.ok) throw new Error(`Yahoo Finance API error: ${response.status}`);
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+          'Accept': 'application/json'
+        }
+      });
+      
+      console.log(`[Yahoo Finance] Response status: ${response.status}`);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`[Yahoo Finance] API error: ${response.status}`, errorText);
+        throw new Error(`Yahoo Finance API error: ${response.status}`);
+      }
       
       const data = await response.json();
+      console.log(`[Yahoo Finance] Got data for ${symbol}:`, data.chart?.result?.[0]?.meta?.regularMarketPrice);
+      
       const chart = data.chart?.result?.[0];
       
       if (!chart || !chart.meta || !chart.indicators?.quote?.[0]?.close) {
+        console.error(`[Yahoo Finance] Invalid data structure for ${symbol}`);
         return null;
       }
 
@@ -97,7 +113,11 @@ class MarketDataProvider {
         source: 'Yahoo Finance'
       };
     } catch (error) {
-      console.error(`Yahoo Finance error for ${symbol}:`, error);
+      console.error(`[Yahoo Finance] Error for ${symbol}:`, error);
+      if (error instanceof Error) {
+        console.error(`[Yahoo Finance] Error message:`, error.message);
+        console.error(`[Yahoo Finance] Error stack:`, error.stack);
+      }
       return null;
     }
   }

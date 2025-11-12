@@ -40,7 +40,11 @@ marketDataRoutes.get('/price', async (c) => {
     const { symbol, period } = priceQuerySchema.parse(c.req.query());
     const marketDataService = createMarketDataService(c.env);
     
+    console.log(`[Market Data] Fetching price for ${symbol}`);
+    
     const data = await marketDataService.getMarketDataAndSignal(symbol);
+    
+    console.log(`[Market Data] Successfully fetched data for ${symbol}`);
     
     return c.json({
       success: true,
@@ -51,11 +55,13 @@ marketDataRoutes.get('/price', async (c) => {
         confidence: data.confidence,
         reasoning: data.reasoning,
         indicators: data.indicators,
+        historicalData: data.historicalData,
         timestamp: Date.now(),
       }
     });
   } catch (error) {
-    console.error('Price endpoint error:', error);
+    console.error('[Market Data] Price endpoint error:', error);
+    console.error('[Market Data] Error stack:', error instanceof Error ? error.stack : 'No stack');
     return c.json({
       success: false,
       error: error instanceof Error ? error.message : 'Failed to get price data'
