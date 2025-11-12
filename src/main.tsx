@@ -30,7 +30,7 @@ import Pricing from './pages/Pricing';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import CoursesPage from './pages/CoursesPage';
-import { CourseDetailPage } from './pages/CourseDetailPage';
+import CourseDetailPage from './pages/CourseDetailPage';
 import ArticlesPage from './pages/ArticlesPage';
 
 // App Pages
