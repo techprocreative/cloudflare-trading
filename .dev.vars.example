@@ -1,0 +1,14 @@
+# Development Environment Variables
+# Copy this file to .dev.vars and fill in your actual API keys
+
+# OpenRouter API Key (required for AI chat features)
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+
+# Alpha Vantage API Key (optional - for better stock market data)
+ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key_here
+
+# SerpAPI Key (optional - for web search features)
+SERPAPI_KEY=your_serpapi_key_here
+
+# Note: Market data (Yahoo Finance, CoinGecko) does not require API keys
+# They use free public APIs with rate limiting

@@ -95,7 +95,7 @@ export function DashboardPanel() {
               <p className="text-sm font-medium text-red-300">Failed to load market data</p>
               <p className="text-xs text-red-400 mt-1">{error}</p>
               <p className="text-xs text-gray-400 mt-1">
-                Make sure OpenRouter API key is configured in wrangler.jsonc
+                Market data uses free APIs (Yahoo Finance, CoinGecko). Service may be temporarily unavailable.
               </p>
             </div>
           </div>
