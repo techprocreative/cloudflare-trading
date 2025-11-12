@@ -169,6 +169,11 @@ export function useAuth(): AuthContextType {
 // Mock authentication functions for development
 // In production, these would call your actual backend APIs
 
+// Browser-compatible base64 encoding function
+const encodeToBase64 = (str: string): string => {
+  return btoa(str);
+};
+
 const generateMockToken = (userId: string): string => {
   return `mock_token_${userId}_${Date.now()}`;
 };
@@ -189,7 +194,7 @@ const login = async (email: string, password: string): Promise<AuthUser> => {
   }
   
   // Mock user data
-  const userId = `user_${Buffer.from(email).toString('base64').slice(0, 8)}`;
+  const userId = `user_${encodeToBase64(email).slice(0, 8)}`;
   const now = new Date();
   
   const mockUser = {
@@ -254,7 +259,7 @@ const register = async (email: string, password: string, fullName?: string, phon
   existingUsers.push(email);
   localStorage.setItem('registeredUsers', JSON.stringify(existingUsers));
   
-  const userId = `user_${Buffer.from(email).toString('base64').slice(0, 8)}`;
+  const userId = `user_${encodeToBase64(email).slice(0, 8)}`;
   const now = new Date();
   
   const mockUser = {
