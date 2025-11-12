@@ -1,0 +1,128 @@
+# Phase 5: QA & Validation Testing Guide
+
+## Manual Testing - Happy Paths
+
+### Path 1: Landing → Pricing → Register → Onboarding → Dashboard → Logout
+- [ ] Navigate to Landing Page (/)
+- [ ] Verify landing page loads without errors
+- [ ] Click "Pricing" button/nav
+- [ ] Verify pricing page loads correctly
+- [ ] Click "Sign Up" or similar registration CTA
+- [ ] Navigate to registration form
+- [ ] Fill out registration form with valid data
+- [ ] Submit registration
+- [ ] Verify onboarding flow starts
+- [ ] Complete onboarding steps
+- [ ] Navigate to dashboard
+- [ ] Verify dashboard loads correctly
+- [ ] Test logout functionality
+- [ ] Verify redirect to landing page
+
+### Path 2: Landing → Login → Dashboard → Settings → Logout
+- [ ] Navigate to Landing Page (/)
+- [ ] Click "Sign In" button
+- [ ] Navigate to login form
+- [ ] Fill out login form with valid credentials
+- [ ] Submit login
+- [ ] Verify redirect to dashboard
+- [ ] Navigate to settings page
+- [ ] Verify settings page loads correctly
+- [ ] Test logout functionality
+- [ ] Verify redirect to landing page
+
+### Path 3: Landing → Pricing → Register (paid) → Onboarding → Checkout → Dashboard
+- [ ] Navigate to Landing Page (/)
+- [ ] Click "Pricing" button
+- [ ] Verify pricing page displays subscription tiers
+- [ ] Select a paid subscription plan
+- [ ] Navigate to registration
+- [ ] Complete registration with billing info
+- [ ] Complete onboarding flow
+- [ ] Navigate to checkout/payment
+- [ ] Verify payment processing
+- [ ] Navigate to dashboard
+- [ ] Verify premium features are accessible
+
+### Path 4: Dashboard → Try access Premium feature → Locked → Pricing → Checkout
+- [ ] Login as free user
+- [ ] Navigate to dashboard
+- [ ] Try to access premium feature (Portfolio, Advanced Signals, etc.)
+- [ ] Verify feature is locked with upgrade prompt
+- [ ] Click upgrade/pricing CTA
+- [ ] Navigate to pricing page
+- [ ] Select premium plan
+- [ ] Navigate to checkout
+- [ ] Complete payment
+- [ ] Verify premium access granted
+
+### Path 5: Mobile versions of all above
+- [ ] Test Path 1 on mobile viewport
+- [ ] Test Path 2 on mobile viewport  
+- [ ] Test Path 3 on mobile viewport
+- [ ] Test Path 4 on mobile viewport
+- [ ] Verify mobile navigation works
+- [ ] Verify mobile responsive design
+- [ ] Test touch interactions
+
+## Manual Testing - Error Cases
+
+### Authentication Errors
+- [ ] Login with wrong password
+- [ ] Login with non-existent email
+- [ ] Register with existing email
+- [ ] Register with invalid email format
+- [ ] Register with weak password
+
+### Route Protection
+- [ ] Access protected route (/app/*) without login
+- [ ] Access onboarding route when completed
+- [ ] Access expired session routes
+- [ ] Direct URL manipulation
+
+### Network & Session
+- [ ] Network error during login
+- [ ] Token expiry mid-session
+- [ ] Browser back/forward edge cases
+- [ ] Page refresh during critical flows
+
+### Payment & Checkout
+- [ ] Payment failure flow
+- [ ] Invalid payment details
+- [ ] Payment timeout scenarios
+- [ ] Checkout cancellation
+
+## Performance & Accessibility
+
+### Performance Metrics
+- [ ] Page load times < 3 seconds
+- [ ] Lighthouse score > 85
+- [ ] No console errors/warnings
+- [ ] No memory leaks (basic check)
+
+### Accessibility Audit
+- [ ] Keyboard navigation (Tab, Enter, Esc)
+- [ ] Screen reader compatibility
+- [ ] Color contrast (WCAG AA minimum)
+- [ ] Focus indicators visible
+- [ ] Forms have proper labels
+- [ ] ARIA attributes where needed
+
+### Security Review
+- [ ] XSS prevention (input sanitization)
+- [ ] CSRF protection
+- [ ] Secure token storage
+- [ ] HTTPS enforcement
+- [ ] CSP headers validation
+
+## Cross-browser Testing
+- [ ] Chrome (desktop & mobile)
+- [ ] Safari (desktop & mobile iOS)
+- [ ] Firefox
+- [ ] Edge
+
+## Success Criteria
+- ✅ No P0/P1 bugs
+- ✅ Lighthouse score > 85
+- ✅ Works on major browsers & devices
+- ✅ All happy paths complete successfully
+- ✅ Error cases handled gracefully
