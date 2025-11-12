@@ -326,5 +326,5 @@ class MarketDataProvider {
   }
 }
 
-// Singleton instance
-export const marketDataProvider = new MarketDataProvider(import.meta.env.VITE_ALPHA_VANTAGE_API_KEY || '');
+// Singleton instance - No API key needed for basic functionality
+export const marketDataProvider = new MarketDataProvider('');

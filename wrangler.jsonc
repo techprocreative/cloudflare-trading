@@ -9,8 +9,8 @@
 	},
 	"vars": {
 		"CF_AI_BASE_URL": "https://openrouter.ai/api/v1",
-		"CF_AI_API_KEY": "sk-or-v1-YOUR_OPENROUTER_API_KEY_HERE",
-		"OPENROUTER_API_KEY": "sk-or-v1-YOUR_OPENROUTER_API_KEY_HERE",
-		"SERPAPI_KEY": "your_serpapi_key_optional"
+		"CF_AI_API_KEY": "$OPENROUTER_API_KEY",
+		"OPENROUTER_API_KEY": "$OPENROUTER_API_KEY",
+		"SERPAPI_KEY": "$SERPAPI_KEY"
 	}
 }
