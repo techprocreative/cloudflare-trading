@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { Home, Layers, Compass, Star, Settings, LifeBuoy } from "lucide-react";
+import { Home, Layers, Compass, Briefcase, BookOpen, Newspaper, Settings } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -31,24 +31,32 @@ export function AppSidebar(): JSX.Element {
         <SidebarInput placeholder={t('common.search')} />
       </SidebarHeader>
       <SidebarContent>
+        {/* Main Navigation */}
         <SidebarGroup>
+          <SidebarGroupLabel>{t('nav.home')}</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive>
-                <Link to="/app/dashboard"><Home /> <span>{t('nav.dashboard')}</span></Link>
+              <SidebarMenuButton asChild>
+                <Link to="/app/dashboard">
+                  <Home className="h-4 w-4" />
+                  <span>{t('nav.dashboard')}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link to="/app/chat"><Layers /> <span>{t('nav.chat')}</span></Link>
+                <Link to="/app/chat">
+                  <Layers className="h-4 w-4" />
+                  <span>{t('nav.chat')}</span>
+                </Link>
               </SidebarMenuButton>
-              <SidebarMenuAction>
-                <Star className="size-4" />
-              </SidebarMenuAction>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link to="/app/signals"><Compass /> <span>{t('signals.title')}</span></Link>
+                <Link to="/app/signals">
+                  <Compass className="h-4 w-4" />
+                  <span>{t('signals.title')}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -56,23 +64,50 @@ export function AppSidebar(): JSX.Element {
 
         <SidebarSeparator />
 
+        {/* Learning Resources */}
+        <SidebarGroup>
+          <SidebarGroupLabel>{t('nav.learning') || 'Learning'}</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link to="/courses">
+                  <BookOpen className="h-4 w-4" />
+                  <span>{t('nav.courses') || 'Courses'}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link to="/articles">
+                  <Newspaper className="h-4 w-4" />
+                  <span>{t('nav.articles') || 'Articles'}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        {/* Portfolio & Settings */}
         <SidebarGroup>
           <SidebarGroupLabel>{t('common.other')}</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link to="/app/portfolio"><Star /> <span>{t('nav.portfolio')}</span></Link>
+                <Link to="/app/portfolio">
+                  <Briefcase className="h-4 w-4" />
+                  <span>{t('nav.portfolio')}</span>
+                </Link>
               </SidebarMenuButton>
-              <SidebarMenuBadge>5</SidebarMenuBadge>
+              <SidebarMenuBadge>Premium</SidebarMenuBadge>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link to="/app/settings"><LifeBuoy /> <span>{t('nav.settings')}</span></Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link to="/app/settings"><Settings /> <span>{t('nav.settings')}</span></Link>
+                <Link to="/app/settings">
+                  <Settings className="h-4 w-4" />
+                  <span>{t('nav.settings')}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

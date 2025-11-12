@@ -29,6 +29,9 @@ import { RegisterPage } from './pages/RegisterPage';
 import Pricing from './pages/Pricing';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import CoursesPage from './pages/CoursesPage';
+import { CourseDetailPage } from './pages/CourseDetailPage';
+import ArticlesPage from './pages/ArticlesPage';
 
 // App Pages
 import { DashboardPage } from './pages/app/DashboardPage';
@@ -105,6 +108,33 @@ const router = createBrowserRouter([
     element: (
       <PublicLayout>
         <PrivacyPolicy />
+      </PublicLayout>
+    ),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/courses",
+    element: (
+      <PublicLayout>
+        <CoursesPage />
+      </PublicLayout>
+    ),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/courses/:courseId",
+    element: (
+      <PublicLayout>
+        <CourseDetailPage />
+      </PublicLayout>
+    ),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/articles",
+    element: (
+      <PublicLayout>
+        <ArticlesPage />
       </PublicLayout>
     ),
     errorElement: <RouteErrorBoundary />,

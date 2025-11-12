@@ -22,9 +22,10 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export function DashboardPanel() {
   const { t } = useTranslation();
   const [selectedPair, setSelectedPair] = useState('EUR/USD');
-  const { chartData, isLoading } = useRealMarketData(selectedPair);
+  const { chartData, isLoading, error } = useRealMarketData(selectedPair);
   const latestSignal = useSignalStore((state) => state.signal);
   const lastEventTimestamp = useSignalStore((state) => state.lastEventTimestamp);
+  
   const eventDataPoint = useMemo(() => {
     if (!lastEventTimestamp) return null;
     return chartData.find(d => d.time === lastEventTimestamp) || null;
@@ -54,17 +55,14 @@ export function DashboardPanel() {
   const { Icon: SignalIcon, color: signalColor, bgColor: signalBgColor } = getSignalAppearance();
   return (
     <div className="h-full overflow-y-auto bg-gray-900 p-6 text-white">
-      <header className="mb-8 flex items-start justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
-          <p className="text-gray-400">{t('dashboard.subtitle', { pair: latestSignal.pair })}</p>
-        </div>
-        <div className="flex items-center gap-4">
-          {/* ADD MARKET SELECTOR */}
-          <MarketSelector
-            currentPair={selectedPair}
-            onPairChange={setSelectedPair}
-          />
+      <header className="mb-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
+            <p className="text-gray-400 mt-1">
+              {t('dashboard.subtitle', { pair: selectedPair })}
+            </p>
+          </div>
           <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-gray-800/50 px-4 py-2 text-sm">
             <User className="h-5 w-5 text-indigo-400" />
             <div>
@@ -73,10 +71,49 @@ export function DashboardPanel() {
             </div>
           </div>
         </div>
+        
+        {/* Market Selector */}
+        <div className="mt-6">
+          <MarketSelector
+            currentPair={selectedPair}
+            onPairChange={setSelectedPair}
+            className="w-full"
+          />
+        </div>
       </header>
-      {isLoading ? (
-        <div className="text-center py-12">Loading market data...</div>
-      ) : (
+
+      {/* Error State */}
+      {error && (
+        <div className="mb-8 rounded-lg border border-red-500/50 bg-red-500/10 p-4">
+          <div className="flex items-center gap-3">
+            <div className="text-red-400">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-red-300">Failed to load market data</p>
+              <p className="text-xs text-red-400 mt-1">{error}</p>
+              <p className="text-xs text-gray-400 mt-1">
+                Make sure OpenRouter API key is configured in wrangler.jsonc
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {isLoading && !error && (
+        <div className="mb-8 flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
+            <p className="text-sm text-gray-400">Loading real market data for {selectedPair}...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Chart */}
+      {!isLoading && !error && chartData.length > 0 && (
         <div className="mb-8 h-80">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
@@ -94,7 +131,7 @@ export function DashboardPanel() {
               <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 0.001', 'dataMax + 0.001']} tickFormatter={(value) => `${Number(value).toFixed(4)}`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: '14px' }} />
-              <Area type="monotone" dataKey="price" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorPrice)" name={`${latestSignal.pair} Price`} />
+              <Area type="monotone" dataKey="price" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorPrice)" name={`${selectedPair} Price`} />
               {eventDataPoint && (
                 <ReferenceDot
                   x={eventDataPoint.time}
