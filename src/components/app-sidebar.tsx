@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import { Home, Layers, Compass, Star, Settings, LifeBuoy } from "lucide-react";
 import {
   Sidebar,
@@ -17,26 +19,28 @@ import {
 } from "@/components/ui/sidebar";
 
 export function AppSidebar(): JSX.Element {
+  const { t } = useTranslation();
+
   return (
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-1">
           <div className="h-6 w-6 rounded-md bg-gradient-to-br from-indigo-500 to-purple-500" />
-          <span className="text-sm font-medium">Template</span>
+          <span className="text-sm font-medium">{t('nav.home')}</span>
         </div>
-        <SidebarInput placeholder="Search" />
+        <SidebarInput placeholder={t('common.search')} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive>
-                <a href="#"><Home /> <span>Home</span></a>
+                <Link to="/app/dashboard"><Home /> <span>{t('nav.dashboard')}</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Layers /> <span>Projects</span></a>
+                <Link to="/app/chat"><Layers /> <span>{t('nav.chat')}</span></Link>
               </SidebarMenuButton>
               <SidebarMenuAction>
                 <Star className="size-4" />
@@ -44,7 +48,7 @@ export function AppSidebar(): JSX.Element {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Compass /> <span>Explore</span></a>
+                <Link to="/app/signals"><Compass /> <span>{t('signals.title')}</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -53,29 +57,29 @@ export function AppSidebar(): JSX.Element {
         <SidebarSeparator />
 
         <SidebarGroup>
-          <SidebarGroupLabel>Quick Links</SidebarGroupLabel>
+          <SidebarGroupLabel>{t('common.other')}</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Star /> <span>Starred</span></a>
+                <Link to="/app/portfolio"><Star /> <span>{t('nav.portfolio')}</span></Link>
               </SidebarMenuButton>
               <SidebarMenuBadge>5</SidebarMenuBadge>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><LifeBuoy /> <span>Support</span></a>
+                <Link to="/support"><LifeBuoy /> <span>{t('nav.profile')}</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Settings /> <span>Settings</span></a>
+                <Link to="/app/settings"><Settings /> <span>{t('nav.settings')}</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="px-2 text-xs text-muted-foreground">A simple shadcn sidebar</div>
+        <div className="px-2 text-xs text-muted-foreground">{t('landing.footer.tagline')}</div>
       </SidebarFooter>
     </Sidebar>
   );

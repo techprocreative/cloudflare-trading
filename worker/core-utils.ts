@@ -11,6 +11,9 @@ export interface Env {
     OPENROUTER_API_KEY: string;
     CHAT_AGENT: DurableObjectNamespace<ChatAgent>;
     APP_CONTROLLER: DurableObjectNamespace<AppController>;
+    DB: D1Database;
+    CACHE: KVNamespace;
+    SESSION_KV: KVNamespace;
 }
 
 /**

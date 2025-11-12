@@ -3,6 +3,23 @@ import { getAgentByName } from 'agents';
 import { ChatAgent } from './agent';
 import { API_RESPONSES } from './config';
 import { Env, getAppController, registerSession, unregisterSession } from "./core-utils";
+import { createAuthService } from '../src/lib/auth';
+import { z } from 'zod';
+import { marketDataRoutes } from './routes/marketData';
+import { createSubscriptionRoutes } from './routes/subscription';
+
+// Validation schemas
+const signUpSchema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  fullName: z.string().optional(),
+  phone: z.string().optional(),
+});
+
+const signInSchema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string().min(1, 'Password is required'),
+});
 
 /**
  * DO NOT MODIFY THIS FUNCTION. Only for your reference.
@@ -32,6 +49,76 @@ export function coreRoutes(app: Hono<{ Bindings: Env }>) {
 }
 
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
+    // Add market data routes
+    app.route('/api/market', marketDataRoutes);
+    
+    // Add subscription routes
+    createSubscriptionRoutes(app);
+    
+    // Add auth routes directly
+    
+    // Sign up
+    app.post('/api/auth/signup', async (c) => {
+        try {
+            const authService = createAuthService(c.env);
+            const body = await c.req.json();
+            const { email, password, fullName, phone } = signUpSchema.parse(body);
+
+            const authUser = await authService.signUp(email, password, fullName, phone);
+            const sessionId = await authService.createSession(authUser.user.id);
+
+            return c.json({
+                success: true,
+                data: {
+                    user: authUser,
+                    sessionId,
+                }
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                return c.json({ 
+                    success: false, 
+                    error: error.message 
+                }, error.message.includes('already') ? 400 : 500);
+            }
+            return c.json({ 
+                success: false, 
+                error: 'Signup failed' 
+            }, 500);
+        }
+    });
+
+    // Sign in
+    app.post('/api/auth/signin', async (c) => {
+        try {
+            const authService = createAuthService(c.env);
+            const body = await c.req.json();
+            const { email, password } = signInSchema.parse(body);
+
+            const authUser = await authService.signIn(email, password);
+            const sessionId = await authService.createSession(authUser.user.id);
+
+            return c.json({
+                success: true,
+                data: {
+                    user: authUser,
+                    sessionId,
+                }
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                return c.json({ 
+                    success: false, 
+                    error: error.message 
+                }, 401);
+            }
+            return c.json({ 
+                success: false, 
+                error: 'Signin failed' 
+            }, 500);
+        }
+    });
+
     // Add your routes here
     /**
      * List all chat sessions

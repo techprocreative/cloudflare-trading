@@ -1,0 +1,417 @@
+{
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "chat": "AI Chat",
+    "courses": "Courses",
+    "portfolio": "Portfolio",
+    "pricing": "Pricing",
+    "profile": "Profile",
+    "settings": "Settings",
+    "subscription": "Subscription"
+  },
+  "dashboard": {
+    "title": "Trading Dashboard",
+    "subtitle": "Simulated market data for {{pair}}",
+    "latestSignal": "Latest Signal",
+    "signalDetails": "Signal Details",
+    "signalTime": "Signal Time",
+    "aiReasoning": "AI Reasoning",
+    "confidence": "Confidence",
+    "localTime": "Local Time",
+    "accountId": "Account ID"
+  },
+  "signals": {
+    "title": "Signals",
+    "BUY": "BUY",
+    "SELL": "SELL",
+    "HOLD": "HOLD"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create Account",
+    "loginToAccount": "Login to Account",
+    "rememberMe": "Remember Me"
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Start your AI trading journey",
+    "monthly": "per month",
+    "getStarted": "Get Started",
+    "currentPlan": "Current Plan",
+    "upgrade": "Upgrade",
+    "downgrade": "Downgrade",
+    "cancel": "Cancel",
+    "features": {
+      "aiRequests": "{{count}} AI requests per day",
+      "tradingSignals": "{{count}} trading signals per day",
+      "symbols": "{{count}} symbols maximum",
+      "dataDelay": "{{delay}} minute data delay",
+      "realTimeData": "Real-time data",
+      "unlimited": "Unlimited",
+      "prioritySupport": "Priority support",
+      "economicCalendar": "Economic calendar",
+      "advancedIndicators": "Advanced indicators",
+      "portfolioTracker": "Portfolio tracker",
+      "watchlistAlerts": "Watchlist with alerts",
+      "apiAccess": "API access",
+      "whiteLabel": "White-label",
+      "oneOnOneMentoring": "1-on-1 mentoring",
+      "customAIModels": "Custom AI models",
+      "advancedAnalytics": "Advanced analytics",
+      "betaFeatures": "Beta features",
+      "dedicatedSupport": "Dedicated support"
+    },
+    "free": "Free",
+    "basic": "Basic",
+    "premium": "Premium",
+    "professional": "Professional"
+  },
+  "payment": {
+    "title": "Payment",
+    "subtitle": "Choose crypto payment method",
+    "selectCrypto": "Select Cryptocurrency",
+    "amount": "Amount",
+    "cryptoAddress": "Crypto Address",
+    "scanQR": "Scan QR Code",
+    "orCopyAddress": "Or copy the address below",
+    "transactionHash": "Transaction Hash",
+    "confirmPayment": "Confirm Payment",
+    "paymentSuccess": "Payment Successful!",
+    "paymentFailed": "Payment Failed",
+    "paymentPending": "Payment Pending Confirmation",
+    "waitForConfirmation": "Please wait for blockchain confirmation (usually 10-30 minutes)",
+    "supportedCryptos": "Supported Cryptocurrencies",
+    "processingPayment": "Processing payment...",
+    "estimatedTime": "Estimated time: {{minutes}} minutes"
+  },
+  "legal": {
+    "disclaimer": "Disclaimer",
+    "educationalOnly": "Educational Purpose Only",
+    "notFinancialAdvice": "Not Financial Advice",
+    "riskWarning": "Risk Warning",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "disclaimerText": "This platform is for educational purposes only. Generated data is simulated and does not represent real market conditions or financial advice. Do not use this platform for actual trading decisions.",
+    "complianceText": "This platform complies with Indonesian OJK regulations and ITE Law."
+  },
+  "trading": {
+    "symbol": "Symbol",
+    "price": "Price",
+    "change": "Change",
+    "volume": "Volume",
+    "marketCap": "Market Cap",
+    "high24h": "24h High",
+    "low24h": "24h Low",
+    "watchlist": "Watchlist",
+    "addToWatchlist": "Add to Watchlist",
+    "removeFromWatchlist": "Remove from Watchlist",
+    "priceAlert": "Price Alert",
+    "setAlert": "Set Alert",
+    "alertSet": "Alert set",
+    "alertRemoved": "Alert removed"
+  },
+  "portfolio": {
+    "title": "My Portfolio",
+    "totalValue": "Total Value",
+    "totalPnL": "Total P&L",
+    "winRate": "Win Rate",
+    "holdings": "Holdings",
+    "addHolding": "Add Holding",
+    "removeHolding": "Remove Holding",
+    "quantity": "Quantity",
+    "avgPrice": "Avg Price",
+    "currentPrice": "Current Price",
+    "unrealizedPnL": "Unrealized P&L",
+    "realizedPnL": "Realized P&L"
+  },
+  "errors": {
+      "general": "An error occurred",
+      "network": "Network error",
+      "unauthorized": "Unauthorized",
+      "notFound": "Not found",
+      "serverError": "Server error",
+      "invalidCredentials": "Invalid email or password",
+      "emailAlreadyExists": "Email already exists",
+      "weakPassword": "Password is too weak",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters long",
+      "passwordComplexity": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordMismatch": "Passwords do not match",
+      "fullNameRequired": "Full name is required",
+      "fullNameTooShort": "Full name must be at least 2 characters long",
+      "termsRequired": "You must agree to the Terms of Service and Privacy Policy",
+      "googleLoginNotImplemented": "Google login will be available soon",
+      "paymentFailed": "Payment failed",
+      "subscriptionExpired": "Subscription expired",
+      "insufficientFunds": "Insufficient funds",
+      "invalidSymbol": "Invalid symbol",
+      "rateLimitExceeded": "Rate limit exceeded"
+    },
+  "success": {
+    "paymentSuccessful": "Payment successful",
+    "subscriptionUpdated": "Subscription updated",
+    "profileUpdated": "Profile updated",
+    "settingsSaved": "Settings saved",
+    "alertCreated": "Alert created",
+    "tradeExecuted": "Trade executed",
+    "watchlistUpdated": "Watchlist updated"
+  },
+  "common": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "processing": "Processing...",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "retry": "Retry",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "date": "Date",
+    "time": "Time",
+    "all": "All",
+    "none": "None",
+    "other": "Other",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "tax": "Tax",
+    "shipping": "Shipping",
+    "free": "Free",
+    "optional": "Optional",
+    "required": "Required",
+    "recommended": "Recommended",
+    "backToHome": "Back to Home",
+    "language": "Language",
+    "theme": "Theme"
+  },
+  "time": {
+    "now": "Now",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "thisYear": "This Year",
+    "minutesAgo": "{{count}} minutes ago",
+    "hoursAgo": "{{count}} hours ago",
+    "daysAgo": "{{count}} days ago",
+    "weeksAgo": "{{count}} weeks ago",
+    "monthsAgo": "{{count}} months ago",
+    "yearsAgo": "{{count}} years ago"
+  },
+  "crypto": {
+    "bitcoin": "Bitcoin",
+    "ethereum": "Ethereum",
+    "tether": "Tether",
+    "binanceCoin": "Binance Coin",
+    "selectCrypto": "Select Cryptocurrency",
+    "walletAddress": "Wallet Address",
+    "copyAddress": "Copy Address",
+    "addressCopied": "Address copied",
+    "transactionId": "Transaction ID",
+    "networkFee": "Network Fee",
+    "estimatedFee": "Estimated Fee",
+    "confirmations": "Confirmations",
+    "waitingForConfirmations": "Waiting for blockchain confirmations",
+    "paymentConfirmed": "Payment confirmed"
+  },
+  "landing": {
+    "hero": {
+      "title": "AI-Powered Trading Signals",
+      "subtitle": "Get intelligent trading recommendations powered by advanced artificial intelligence. Make informed trading decisions with real-time market analysis.",
+      "cta": "Start Free Trial",
+      "ctaSecondary": "View Pricing"
+    },
+    "features": {
+      "title": "Why Choose Signal Sage AI?",
+      "subtitle": "Powerful features to enhance your trading journey",
+      "aiAnalysis": {
+        "title": "AI-Powered Analysis",
+        "description": "Advanced machine learning algorithms analyze market patterns and provide accurate trading signals."
+      },
+      "realTimeData": {
+        "title": "Real-Time Data",
+        "description": "Access live market data and price movements to make timely trading decisions."
+      },
+      "riskManagement": {
+        "title": "Risk Management",
+        "description": "Built-in risk assessment tools help you manage your portfolio effectively."
+      },
+      "mobileApp": {
+        "title": "Mobile Ready",
+        "description": "Trade on-the-go with our responsive mobile interface and notifications."
+      }
+    },
+    "testimonials": {
+      "title": "What Our Users Say",
+      "subtitle": "Join thousands of traders who trust Signal Sage AI"
+    },
+    "pricing": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Choose the perfect plan for your trading journey",
+      "viewAllPlans": "View All Plans"
+    },
+    "footer": {
+      "tagline": "Smart Trading with AI Intelligence",
+      "links": {
+        "about": "About",
+        "contact": "Contact",
+        "support": "Support",
+        "careers": "Careers"
+      },
+      "social": {
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn",
+        "github": "GitHub"
+      },
+      "copyright": "© 2025 Signal Sage AI. All rights reserved."
+    }
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "stepProgress": "Step {{current}} of {{total}}",
+    "completed": "completed",
+    "welcome": {
+      "title": "Welcome, {{name}}!",
+      "subtitle": "Let's get you started with your trading journey",
+      "description": "We're excited to help you make informed trading decisions with our AI-powered platform.",
+      "user": "there",
+      "cta": "Get Started",
+      "estimate": "This will take about 2-3 minutes",
+      "features": {
+        "ai": {
+          "title": "AI-Powered Analysis",
+          "description": "Advanced algorithms provide real-time market insights and trading signals."
+        },
+        "signals": {
+          "title": "Trading Signals",
+          "description": "Receive buy/sell recommendations based on technical and fundamental analysis."
+        },
+        "security": {
+          "title": "Secure & Private",
+          "description": "Your data is encrypted and never shared with third parties."
+        },
+        "analytics": {
+          "title": "Portfolio Analytics",
+          "description": "Track your performance with detailed reports and insights."
+        }
+      }
+    },
+    "plan": {
+      "title": "Choose Your Plan",
+      "subtitle": "Select the perfect plan for your trading needs",
+      "description": "You can always upgrade or downgrade later",
+      "recommended": "Recommended",
+      "moreFeatures": "more features",
+      "notSure": "Not sure which plan to choose?",
+      "unsure": "Start with Free Plan",
+      "note": "All plans include our core AI analysis features",
+      "cta": {
+        "free": "Start Free",
+        "paid": "Choose {{plan}}"
+      }
+    },
+    "profile": {
+      "questionProgress": "Question {{current}} of {{total}}",
+      "steps": "{{current}} of {{total}}",
+      "complete": "Complete Setup",
+      "skipAll": "Skip Profile Setup",
+      "experience": {
+        "title": "What's your trading experience?",
+        "subtitle": "This helps us customize your experience",
+        "beginner": "Beginner",
+        "beginnerDesc": "New to trading, want to learn the basics",
+        "intermediate": "Intermediate",
+        "intermediateDesc": "Some trading experience, familiar with basics",
+        "advanced": "Advanced",
+        "advancedDesc": "Experienced trader, familiar with advanced strategies"
+      },
+      "risk": {
+        "title": "What's your risk tolerance?",
+        "subtitle": "This helps us recommend suitable strategies",
+        "conservative": "Conservative",
+        "conservativeDesc": "Prefer low-risk, stable investments",
+        "moderate": "Moderate",
+        "moderateDesc": "Comfortable with some risk for better returns",
+        "aggressive": "Aggressive",
+        "aggressiveDesc": "Comfortable with high risk for maximum returns"
+      },
+      "markets": {
+        "title": "Which markets interest you?",
+        "subtitle": "Select all that apply",
+        "stocks": "Stocks",
+        "stocksDesc": "Equity markets and individual stocks",
+        "forex": "Forex",
+        "forexDesc": "Currency exchange markets",
+        "crypto": "Cryptocurrency",
+        "cryptoDesc": "Digital currencies and blockchain assets",
+        "selectAtLeastOne": "Please select at least one market"
+      },
+      "goal": {
+        "title": "What's your main goal?",
+        "subtitle": "This helps us tailor your recommendations",
+        "learning": "Learning",
+        "learningDesc": "Want to learn about trading and markets",
+        "supplement": "Supplement Income",
+        "supplementDesc": "Looking to add trading to your income",
+        "primary": "Primary Income",
+        "primaryDesc": "Planning to make trading your main income source"
+      }
+    }
+  },
+  "payment": {
+    "checkout": {
+      "title": "Complete Your Purchase",
+      "subtitle": "You're choosing the {{plan}} plan"
+    },
+    "orderSummary": "Order Summary",
+    "planPrice": "Plan Price",
+    "discount": "Discount",
+    "total": "Total",
+    "cryptoEquivalent": "Crypto Equivalent",
+    "paymentMethod": "Payment Method",
+    "selectCrypto": "Select Cryptocurrency",
+    "walletAddress": "Wallet Address",
+    "sendExact": "Send the exact amount to this address",
+    "promoCode": "Promo Code",
+    "enterPromo": "Enter promo code",
+    "apply": "Apply",
+    "tryPromo": "Try these codes:",
+    "termsTitle": "Terms & Conditions",
+    "termsText": "I agree to the Terms of Service and Privacy Policy. I understand this is an educational platform and not financial advice.",
+    "securePayment": "Secure payment processing",
+    "instantActivation": "Instant plan activation",
+    "completeOrder": "Complete Order for {{amount}}",
+    "back": "Back",
+    "processing": "Processing...",
+    "invalidPromo": "Invalid promo code",
+    "acceptTerms": "Please accept the terms and conditions",
+    "success": {
+      "title": "Payment Successful!",
+      "description": "Welcome to the {{plan}} plan. Your account has been upgraded.",
+      "redirect": "Redirecting you to complete your profile setup..."
+    }
+  }
+}

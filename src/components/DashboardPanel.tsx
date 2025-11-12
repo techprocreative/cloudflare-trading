@@ -6,6 +6,7 @@ import { useSignalStore } from '@/store/signalStore';
 import { motion } from 'framer-motion';
 import { TradeHistory } from './TradeHistory';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -18,6 +19,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 export function DashboardPanel() {
+  const { t } = useTranslation();
   const chartData = useChartData();
   const latestSignal = useSignalStore((state) => state.signal);
   const lastEventTimestamp = useSignalStore((state) => state.lastEventTimestamp);
@@ -52,13 +54,13 @@ export function DashboardPanel() {
     <div className="h-full overflow-y-auto bg-gray-900 p-6 text-white">
       <header className="mb-8 flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Trading Dashboard</h1>
-          <p className="text-gray-400">Simulated market data for {latestSignal.pair}</p>
+          <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
+          <p className="text-gray-400">{t('dashboard.subtitle', { pair: latestSignal.pair })}</p>
         </div>
         <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-gray-800/50 px-4 py-2 text-sm">
           <User className="h-5 w-5 text-indigo-400" />
           <div>
-            <span className="text-gray-400">Account ID:</span>
+            <span className="text-gray-400">{t('dashboard.accountId')}:</span>
             <span className="ml-2 font-mono font-bold text-white">11266275</span>
           </div>
         </div>
@@ -101,7 +103,7 @@ export function DashboardPanel() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card className="border-white/10 bg-gray-800/50 text-white transition-all hover:border-indigo-500/50 hover:shadow-lg hover:shadow-indigo-500/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">Latest Signal</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">{t('dashboard.latestSignal')}</CardTitle>
             <Zap className="h-4 w-4 text-gray-400" />
           </CardHeader>
           <CardContent>
@@ -118,27 +120,27 @@ export function DashboardPanel() {
         </Card>
         <Card className="border-white/10 bg-gray-800/50 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">Signal Details</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">{t('dashboard.signalDetails')}</CardTitle>
             <TrendingUp className="h-4 w-4 text-gray-400" />
           </CardHeader>
           <CardContent>
             <motion.div key={latestSignal.timestamp + 'details'} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <div className="text-2xl font-bold">{latestSignal.price.toFixed(4)}</div>
               <p className="text-xs text-gray-400">
-                Confidence: <span className="font-semibold text-indigo-400">{latestSignal.confidence}%</span>
+                {t('dashboard.confidence')}: <span className="font-semibold text-indigo-400">{latestSignal.confidence}%</span>
               </p>
             </motion.div>
           </CardContent>
         </Card>
         <Card className="border-white/10 bg-gray-800/50 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">Signal Time</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">{t('dashboard.signalTime')}</CardTitle>
             <Clock className="h-4 w-4 text-gray-400" />
           </CardHeader>
           <CardContent>
             <motion.div key={latestSignal.timestamp + 'time'} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <div className="text-2xl font-bold">{latestSignal.timestamp}</div>
-              <p className="text-xs text-gray-400">Local Time</p>
+              <p className="text-xs text-gray-400">{t('dashboard.localTime')}</p>
             </motion.div>
           </CardContent>
         </Card>
@@ -146,7 +148,7 @@ export function DashboardPanel() {
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card className="border-white/10 bg-gray-800/50 text-white">
           <CardHeader>
-            <CardTitle className="text-sm font-medium text-gray-300">AI Reasoning</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">{t('dashboard.aiReasoning')}</CardTitle>
           </CardHeader>
           <CardContent>
             <motion.p key={latestSignal.timestamp + 'reasoning'} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-gray-300">

@@ -3,6 +3,7 @@ import type { Message, ToolCall } from './types';
 import { getToolDefinitions, executeTool } from './tools';
 import { ChatCompletionMessageFunctionToolCall } from 'openai/resources/index.mjs';
 import type { Env } from './core-utils';
+import { createRAGAgent, type RAGAgentResponse } from './services/ragAgent';
 const MOCK_MODE_MESSAGE = "AI Gateway not configured. Running in mock mode. All AI responses are simulated.";
 /**
  * ChatHandler - Handles all chat-related operations
@@ -14,6 +15,7 @@ export class ChatHandler {
   private client: OpenAI;
   private model: string;
   private env: Env;
+  private ragAgent;
   constructor(aiGatewayUrl: string, apiKey: string, model: string, env: Env) {
     this.client = new OpenAI({
       baseURL: aiGatewayUrl,
@@ -21,18 +23,58 @@ export class ChatHandler {
     });
     this.model = model;
     this.env = env;
+    this.ragAgent = createRAGAgent(env);
   }
   /**
-   * Process a user message and generate AI response with optional tool usage
+   * Process a user message with RAG enhancement
    */
   async processMessage(
     message: string,
     conversationHistory: Message[],
-    onChunk?: (chunk: string) => void
+    onChunk?: (chunk: string) => void,
+    userContext?: {
+      experience?: 'beginner' | 'intermediate' | 'advanced';
+      riskProfile?: 'conservative' | 'moderate' | 'aggressive';
+      preferredLanguage?: 'id' | 'en';
+    }
   ): Promise<{
     content: string;
     toolCalls?: ToolCall[];
+    sources?: Array<{
+      title: string;
+      category: string;
+      relevance: number;
+    }>;
+    marketData?: {
+      symbol: string;
+      price: number;
+      signal: string;
+      confidence: number;
+    };
   }> {
+    // Try RAG first for Indonesian trading content
+    try {
+      const ragResponse = await this.ragAgent.getResponse(message, userContext);
+      
+      // Return RAG enhanced response for Indonesian queries
+      if (message.toLowerCase().includes('indonesia') || 
+          message.toLowerCase().includes('saham') ||
+          message.toLowerCase().includes('forex') ||
+          message.toLowerCase().includes('trading') ||
+          message.toLowerCase().includes('risk') ||
+          userContext?.preferredLanguage === 'id') {
+        
+        return {
+          content: ragResponse.content,
+          sources: ragResponse.sources,
+          marketData: ragResponse.marketData
+        };
+      }
+    } catch (error) {
+      console.error('RAG processing failed, falling back to OpenAI:', error);
+    }
+    
+    // Fallback to original OpenAI logic
     const messages = this.buildConversationMessages(message, conversationHistory);
     const toolDefinitions = await getToolDefinitions();
     try {

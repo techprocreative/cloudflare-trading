@@ -1,3 +1,18 @@
 
 # Bootstrap marker
 .bootstrap-complete
+-e 
+# Node modules and build artifacts
+node_modules/
+.dist/
+.wrangler/
+.env.local
+.env.*.local
+
+# Build artifacts
+dist/
+build/
+
+# Cache
+.eslintcache
+tsconfig.tsbuildinfo

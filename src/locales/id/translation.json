@@ -1,0 +1,417 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "dashboard": "Dashboard",
+    "chat": "Chat AI",
+    "courses": "Kursus",
+    "portfolio": "Portofolio",
+    "pricing": "Harga",
+    "profile": "Profil",
+    "settings": "Pengaturan",
+    "subscription": "Langganan"
+  },
+  "dashboard": {
+    "title": "Dashboard Trading",
+    "subtitle": "Data pasar simulasi untuk {{pair}}",
+    "latestSignal": "Sinyal Terbaru",
+    "signalDetails": "Detail Sinyal",
+    "signalTime": "Waktu Sinyal",
+    "aiReasoning": "Analisis AI",
+    "confidence": "Keyakinan",
+    "localTime": "Waktu Lokal",
+    "accountId": "ID Akun"
+  },
+  "signals": {
+    "title": "Sinyal",
+    "BUY": "BELI",
+    "SELL": "JUAL",
+    "HOLD": "TUNGGU"
+  },
+  "auth": {
+    "signIn": "Masuk",
+    "signUp": "Daftar",
+    "signOut": "Keluar",
+    "email": "Email",
+    "password": "Kata Sandi",
+    "confirmPassword": "Konfirmasi Kata Sandi",
+    "fullName": "Nama Lengkap",
+    "phone": "Nomor Telepon",
+    "forgotPassword": "Lupa Kata Sandi?",
+    "resetPassword": "Reset Kata Sandi",
+    "alreadyHaveAccount": "Sudah punya akun?",
+    "dontHaveAccount": "Belum punya akun?",
+    "createAccount": "Buat Akun",
+    "loginToAccount": "Masuk ke Akun",
+    "rememberMe": "Ingat Saya"
+  },
+  "pricing": {
+    "title": "Pilih Paket Anda",
+    "subtitle": "Mulai perjalanan trading Anda dengan AI",
+    "monthly": "per bulan",
+    "getStarted": "Mulai Sekarang",
+    "currentPlan": "Paket Saat Ini",
+    "upgrade": "Upgrade",
+    "downgrade": "Downgrade",
+    "cancel": "Batalkan",
+    "features": {
+      "aiRequests": "{{count}} permintaan AI per hari",
+      "tradingSignals": "{{count}} sinyal trading per hari",
+      "symbols": "{{count}} simbol maksimal",
+      "dataDelay": "Data {{delay}} menit",
+      "realTimeData": "Data real-time",
+      "unlimited": "Tidak terbatas",
+      "prioritySupport": "Support prioritas",
+      "economicCalendar": "Kalender ekonomi",
+      "advancedIndicators": "Indikator lanjutan",
+      "portfolioTracker": "Pelacak portofolio",
+      "watchlistAlerts": "Watchlist dengan notifikasi",
+      "apiAccess": "Akses API",
+      "whiteLabel": "White-label",
+      "oneOnOneMentoring": "Mentoring 1-on-1",
+      "customAIModels": "Model AI kustom",
+      "advancedAnalytics": "Analitik lanjutan",
+      "betaFeatures": "Fitur beta",
+      "dedicatedSupport": "Support khusus"
+    },
+    "free": "Gratis",
+    "basic": "Dasar",
+    "premium": "Premium",
+    "professional": "Profesional"
+  },
+  "payment": {
+    "title": "Pembayaran",
+    "subtitle": "Pilih metode pembayaran crypto",
+    "selectCrypto": "Pilih Cryptocurrency",
+    "amount": "Jumlah",
+    "cryptoAddress": "Alamat Crypto",
+    "scanQR": "Scan QR Code",
+    "orCopyAddress": "Atau salamat alamat di bawah",
+    "transactionHash": "Hash Transaksi",
+    "confirmPayment": "Konfirmasi Pembayaran",
+    "paymentSuccess": "Pembayaran Berhasil!",
+    "paymentFailed": "Pembayaran Gagal",
+    "paymentPending": "Pembayaran Menunggu Konfirmasi",
+    "waitForConfirmation": "Mohon tunggu konfirmasi blockchain (biasanya 10-30 menit)",
+    "supportedCryptos": "Cryptocurrency yang didukung",
+    "processingPayment": "Memproses pembayaran...",
+    "estimatedTime": "Estimasi waktu: {{minutes}} menit"
+  },
+  "legal": {
+    "disclaimer": "Penafian",
+    "educationalOnly": "Hanya untuk edukasi",
+    "notFinancialAdvice": "Bukan nasihat keuangan",
+    "riskWarning": "Peringatan risiko",
+    "termsOfService": "Syarat & Ketentuan",
+    "privacyPolicy": "Kebijakan Privasi",
+    "disclaimerText": "Platform ini hanya untuk tujuan edukasi. Data yang dihasilkan adalah simulasi dan tidak mewakili kondisi pasar nyata atau nasihat keuangan. Jangan gunakan platform ini untuk keputusan trading nyata.",
+    "complianceText": "Platform ini mematuhi regulasi OJK Indonesia dan UU ITE."
+  },
+  "trading": {
+    "symbol": "Simbol",
+    "price": "Harga",
+    "change": "Perubahan",
+    "volume": "Volume",
+    "marketCap": "Kapitalisasi Pasar",
+    "high24h": "Tertinggi 24j",
+    "low24h": "Terendah 24j",
+    "watchlist": "Watchlist",
+    "addToWatchlist": "Tambah ke Watchlist",
+    "removeFromWatchlist": "Hapus dari Watchlist",
+    "priceAlert": "Notifikasi Harga",
+    "setAlert": "Setel Notifikasi",
+    "alertSet": "Notifikasi disetel",
+    "alertRemoved": "Notifikasi dihapus"
+  },
+  "portfolio": {
+    "title": "Portofolio Saya",
+    "totalValue": "Total Nilai",
+    "totalPnL": "Total P&L",
+    "winRate": "Win Rate",
+    "holdings": "Kepemilikan",
+    "addHolding": "Tambah Kepemilikan",
+    "removeHolding": "Hapus Kepemilikan",
+    "quantity": "Kuantitas",
+    "avgPrice": "Harga Rata-rata",
+    "currentPrice": "Harga Saat Ini",
+    "unrealizedPnL": "P&L Terealisasi",
+    "realizedPnL": "P&L Terealisasi"
+  },
+  "errors": {
+      "general": "Terjadi kesalahan",
+      "network": "Kesalahan jaringan",
+      "unauthorized": "Tidak diizinkan",
+      "notFound": "Tidak ditemukan",
+      "serverError": "Kesalahan server",
+      "invalidCredentials": "Email atau kata sandi salah",
+      "emailAlreadyExists": "Email sudah terdaftar",
+      "weakPassword": "Kata sandi terlalu lemah",
+      "emailRequired": "Email wajib diisi",
+      "invalidEmail": "Format email tidak valid",
+      "passwordRequired": "Kata sandi wajib diisi",
+      "passwordTooShort": "Kata sandi minimal 6 karakter",
+      "passwordComplexity": "Kata sandi harus mengandung huruf besar, huruf kecil, dan angka",
+      "confirmPasswordRequired": "Konfirmasi kata sandi wajib diisi",
+      "passwordMismatch": "Kata sandi tidak cocok",
+      "fullNameRequired": "Nama lengkap wajib diisi",
+      "fullNameTooShort": "Nama lengkap minimal 2 karakter",
+      "termsRequired": "Anda harus menyetujui Syarat Layanan dan Kebijakan Privasi",
+      "googleLoginNotImplemented": "Login Google akan tersedia segera",
+      "paymentFailed": "Pembayaran gagal",
+      "subscriptionExpired": "Langganan kadaluarsa",
+      "insufficientFunds": "Dana tidak mencukupi",
+      "invalidSymbol": "Simbol tidak valid",
+      "rateLimitExceeded": "Batas permintaan terlampaui"
+    },
+  "success": {
+    "paymentSuccessful": "Pembayaran berhasil",
+    "subscriptionUpdated": "Langganan diperbarui",
+    "profileUpdated": "Profil diperbarui",
+    "settingsSaved": "Pengaturan disimpan",
+    "alertCreated": "Notifikasi dibuat",
+    "tradeExecuted": "Trading dieksekusi",
+    "watchlistUpdated": "Watchlist diperbarui"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "saving": "Menyimpan...",
+    "processing": "Memproses...",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "view": "Lihat",
+    "close": "Tutup",
+    "retry": "Coba Lagi",
+    "yes": "Ya",
+    "no": "Tidak",
+    "ok": "OK",
+    "search": "Cari",
+    "filter": "Filter",
+    "sort": "Urutkan",
+    "date": "Tanggal",
+    "time": "Waktu",
+    "all": "Semua",
+    "none": "Tidak Ada",
+    "other": "Lainnya",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "discount": "Diskon",
+    "tax": "Pajak",
+    "shipping": "Pengiriman",
+    "free": "Gratis",
+    "optional": "Opsional",
+    "required": "Wajib",
+    "recommended": "Direkomendasikan",
+    "backToHome": "Kembali ke Beranda",
+    "language": "Bahasa",
+    "theme": "Tema"
+  },
+  "time": {
+    "now": "Sekarang",
+    "today": "Hari Ini",
+    "yesterday": "Kemarin",
+    "thisWeek": "Minggu Ini",
+    "thisMonth": "Bulan Ini",
+    "thisYear": "Tahun Ini",
+    "minutesAgo": "{{count}} menit yang lalu",
+    "hoursAgo": "{{count}} jam yang lalu",
+    "daysAgo": "{{count}} hari yang lalu",
+    "weeksAgo": "{{count}} minggu yang lalu",
+    "monthsAgo": "{{count}} bulan yang lalu",
+    "yearsAgo": "{{count}} tahun yang lalu"
+  },
+  "crypto": {
+    "bitcoin": "Bitcoin",
+    "ethereum": "Ethereum",
+    "tether": "Tether",
+    "binanceCoin": "Binance Coin",
+    "selectCrypto": "Pilih Cryptocurrency",
+    "walletAddress": "Alamat Wallet",
+    "copyAddress": "Salin Alamat",
+    "addressCopied": "Alamat disalin",
+    "transactionId": "ID Transaksi",
+    "networkFee": "Biaya Network",
+    "estimatedFee": "Estimasi Biaya",
+    "confirmations": "Konfirmasi",
+    "waitingForConfirmations": "Menunggu konfirmasi blockchain",
+    "paymentConfirmed": "Pembayaran dikonfirmasi"
+  },
+  "landing": {
+    "hero": {
+      "title": "Sinyal Trading Bertenaga AI",
+      "subtitle": "Dapatkan rekomendasi trading pintar yang didukung oleh kecerdasan buatan canggih. Ambil keputusan trading dengan analisis pasar real-time.",
+      "cta": "Mulai Uji Coba Gratis",
+      "ctaSecondary": "Lihat Harga"
+    },
+    "features": {
+      "title": "Mengapa Memilih Signal Sage AI?",
+      "subtitle": "Fitur powerful untuk meningkatkan perjalanan trading Anda",
+      "aiAnalysis": {
+        "title": "Analisis Bertenaga AI",
+        "description": "Algoritma machine learning canggih menganalisis pola pasar dan memberikan sinyal trading akurat."
+      },
+      "realTimeData": {
+        "title": "Data Real-Time",
+        "description": "Akses data pasar langsung dan pergerakan harga untuk membuat keputusan trading tepat waktu."
+      },
+      "riskManagement": {
+        "title": "Manajemen Risiko",
+        "description": "Alat penilaian risiko terintegrasi membantu Anda mengelola portofolio secara efektif."
+      },
+      "mobileApp": {
+        "title": "Siap Mobile",
+        "description": "Trading on-the-go dengan interface mobile responsif dan notifikasi."
+      }
+    },
+    "testimonials": {
+      "title": "Kata Pengguna Kami",
+      "subtitle": "Bergabunglah dengan ribuan trader yang mempercayai Signal Sage AI"
+    },
+    "pricing": {
+      "title": "Siap Memulai?",
+      "subtitle": "Pilih paket yang sempurna untuk perjalanan trading Anda",
+      "viewAllPlans": "Lihat Semua Paket"
+    },
+    "footer": {
+      "tagline": "Trading Pintar dengan Kecerdasan AI",
+      "links": {
+        "about": "Tentang",
+        "contact": "Kontak",
+        "support": "Support",
+        "careers": "Karir"
+      },
+      "social": {
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn",
+        "github": "GitHub"
+      },
+      "copyright": "© 2025 Signal Sage AI. Seluruh hak cipta dilindungi."
+    }
+  },
+  "onboarding": {
+    "skip": "Lewati",
+    "stepProgress": "Langkah {{current}} dari {{total}}",
+    "completed": "selesai",
+    "welcome": {
+      "title": "Selamat datang, {{name}}!",
+      "subtitle": "Mari mulai perjalanan trading Anda",
+      "description": "Kami senang membantu Anda membuat keputusan trading yang tepat dengan platform AI kami.",
+      "user": "di sana",
+      "cta": "Mulai",
+      "estimate": "Ini akan memakan waktu sekitar 2-3 menit",
+      "features": {
+        "ai": {
+          "title": "Analisis Bertenaga AI",
+          "description": "Algoritma canggih memberikan insight pasar real-time dan sinyal trading."
+        },
+        "signals": {
+          "title": "Sinyal Trading",
+          "description": "Dapatkan rekomendasi buy/sell berdasarkan analisis teknikal dan fundamental."
+        },
+        "security": {
+          "title": "Aman & Pribadi",
+          "description": "Data Anda dienkripsi dan tidak pernah dibagikan kepada pihak ketiga."
+        },
+        "analytics": {
+          "title": "Analitik Portofolio",
+          "description": "Lacak performa Anda dengan laporan dan insight yang detail."
+        }
+      }
+    },
+    "plan": {
+      "title": "Pilih Paket Anda",
+      "subtitle": "Pilih paket yang sempurna untuk kebutuhan trading Anda",
+      "description": "Anda selalu bisa upgrade atau downgrade nanti",
+      "recommended": "Direkomendasikan",
+      "moreFeatures": "fitur lainnya",
+      "notSure": "Tidak yakin paket mana yang dipilih?",
+      "unsure": "Mulai dengan Paket Gratis",
+      "note": "Semua paket termasuk fitur analisis AI inti kami",
+      "cta": {
+        "free": "Mulai Gratis",
+        "paid": "Pilih {{plan}}"
+      }
+    },
+    "profile": {
+      "questionProgress": "Pertanyaan {{current}} dari {{total}}",
+      "steps": "{{current}} dari {{total}}",
+      "complete": "Selesai",
+      "skipAll": "Lewati Setup Profil",
+      "experience": {
+        "title": "Apa pengalaman trading Anda?",
+        "subtitle": "Ini membantu kami menyesuaikan pengalaman Anda",
+        "beginner": "Pemula",
+        "beginnerDesc": "Baru dalam trading, ingin belajar dasar-dasarnya",
+        "intermediate": "Menengah",
+        "intermediateDesc": "Beberapa pengalaman trading, familiar dengan dasar-dasar",
+        "advanced": "Lanjutan",
+        "advancedDesc": "Trader berpengalaman, familiar dengan strategi lanjutan"
+      },
+      "risk": {
+        "title": "Apa toleransi risiko Anda?",
+        "subtitle": "Ini membantu kami merekomendasikan strategi yang sesuai",
+        "conservative": "Konservatif",
+        "conservativeDesc": "Preferensi investasi risiko rendah dan stabil",
+        "moderate": "Sedang",
+        "moderateDesc": "Nyaman dengan beberapa risiko untuk return yang lebih baik",
+        "aggressive": "Agresif",
+        "aggressiveDesc": "Nyaman dengan risiko tinggi untuk return maksimal"
+      },
+      "markets": {
+        "title": "Pasar mana yang Anda minati?",
+        "subtitle": "Pilih semua yang berlaku",
+        "stocks": "Saham",
+        "stocksDesc": "Pasar saham dan saham individual",
+        "forex": "Forex",
+        "forexDesc": "Pasar pertukaran mata uang",
+        "crypto": "Kriptocurrency",
+        "cryptoDesc": "Mata uang digital dan aset blockchain",
+        "selectAtLeastOne": "Silakan pilih minimal satu pasar"
+      },
+      "goal": {
+        "title": "Apa tujuan utama Anda?",
+        "subtitle": "Ini membantu kami menyesuaikan rekomendasi Anda",
+        "learning": "Belajar",
+        "learningDesc": "Ingin belajar tentang trading dan pasar",
+        "supplement": "Pendapatan Tambahan",
+        "supplementDesc": "Ingin menambah trading ke pendapatan Anda",
+        "primary": "Pendapatan Utama",
+        "primaryDesc": "Berencana menjadikan trading sebagai sumber pendapatan utama"
+      }
+    }
+  },
+  "payment": {
+    "checkout": {
+      "title": "Selesaikan Pembelian Anda",
+      "subtitle": "Anda memilih paket {{plan}}"
+    },
+    "orderSummary": "Ringkasan Pesanan",
+    "planPrice": "Harga Paket",
+    "discount": "Diskon",
+    "total": "Total",
+    "cryptoEquivalent": "Ekuivalen Crypto",
+    "paymentMethod": "Metode Pembayaran",
+    "selectCrypto": "Pilih Cryptocurrency",
+    "walletAddress": "Alamat Wallet",
+    "sendExact": "Kirim jumlah tepat ke alamat ini",
+    "promoCode": "Kode Promo",
+    "enterPromo": "Masukkan kode promo",
+    "apply": "Terapkan",
+    "tryPromo": "Coba kode ini:",
+    "termsTitle": "Syarat & Ketentuan",
+    "termsText": "Saya menyetujui Syarat Layanan dan Kebijakan Privasi. Saya memahami ini adalah platform edukasi dan bukan nasihat keuangan.",
+    "securePayment": "Pemrosesan pembayaran aman",
+    "instantActivation": "Aktivasi paket instan",
+    "completeOrder": "Selesaikan Pesanan untuk {{amount}}",
+    "back": "Kembali",
+    "processing": "Memproses...",
+    "invalidPromo": "Kode promo tidak valid",
+    "acceptTerms": "Silakan terima syarat dan ketentuan",
+    "success": {
+      "title": "Pembayaran Berhasil!",
+      "description": "Selamat datang di paket {{plan}}. Akun Anda telah diupgrade.",
+      "redirect": "Mengalihkan Anda untuk menyelesaikan setup profil..."
+    }
+  }
+}

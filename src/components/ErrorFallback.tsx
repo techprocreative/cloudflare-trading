@@ -2,6 +2,7 @@ import React from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 
 export interface ErrorFallbackProps {
   title?: string;
@@ -14,14 +15,23 @@ export interface ErrorFallbackProps {
 }
 
 export function ErrorFallback({
-  title = "Oops! Something went wrong",
-  message = "We're aware of the issue and actively working to fix it. Your experience matters to us.",
+  title,
+  message,
   error,
   onRetry,
   onGoHome,
   showErrorDetails = true,
-  statusMessage = "Our team has been notified"
+  statusMessage
 }: ErrorFallbackProps) {
+  const { t } = useTranslation();
+  
+  // Use translations if available, otherwise fall back to defaults
+  const defaultTitle = t('errors.general');
+  const defaultMessage = t('common.retry');
+  const defaultStatusMessage = "Our team has been notified";
+  const retryText = t('common.retry');
+  const homeText = t('common.backToHome');
+
   const handleRetry = () => {
     if (onRetry) {
       onRetry();
@@ -52,8 +62,8 @@ export function ErrorFallback({
               <div className="mx-auto w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center">
                 <AlertTriangle className="w-8 h-8 text-destructive" />
               </div>
-              <h1 className="text-2xl font-bold">{title}</h1>
-              <p className="text-muted-foreground">{message}</p>
+              <h1 className="text-2xl font-bold">{title || defaultTitle}</h1>
+              <p className="text-muted-foreground">{message || defaultMessage}</p>
             </div>
 
             {/* Status indicator */}
@@ -68,11 +78,11 @@ export function ErrorFallback({
             <div className="space-y-3">
               <Button onClick={handleRetry} className="w-full">
                 <RefreshCw className="w-4 h-4 mr-2" />
-                Try Again
+                {retryText}
               </Button>
               <Button onClick={handleGoHome} variant="secondary" className="w-full">
                 <Home className="w-4 h-4 mr-2" />
-                Go to Homepage
+                {homeText}
               </Button>
             </div>
 

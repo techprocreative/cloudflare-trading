@@ -16,6 +16,25 @@
 			}
 		]
 	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "signal-sage-db",
+			"database_id": "signal-sage-db-id"
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "CACHE",
+			"id": "cache-kv-namespace",
+			"preview_id": "cache-kv-preview"
+		},
+		{
+			"binding": "SESSION_KV",
+			"id": "session-kv-namespace",
+			"preview_id": "session-kv-preview"
+		}
+	],
 	"migrations": [
 		{
 			"tag": "v1",
